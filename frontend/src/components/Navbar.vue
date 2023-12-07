@@ -28,7 +28,7 @@
       </div>
     </div>
     <footer class="bg-neutral-content" >
-      123
+      底部栏
     </footer>
   </nav>
 
