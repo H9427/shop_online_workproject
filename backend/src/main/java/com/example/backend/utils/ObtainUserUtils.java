@@ -5,15 +5,15 @@ import org.springframework.stereotype.Component;
 
 import java.rmi.ServerException;
 
+//通过request获取数据
 @Component
 public class ObtainUserUtils {
 
     public static String getUserName(HttpServletRequest request) throws ServerException {
-        if (request.getAttribute("userName") == null) {
-            System.out.println("输出了这里");
+        if (request.getParameter("userName") == null) {
             throw new ServerException("用户名不存在");
         }
-        String userName = request.getAttribute("userName").toString();
+        String userName = request.getParameter("userName");
         if (userName == null) {
             throw new ServerException("用户名不存在");
         }
@@ -21,10 +21,10 @@ public class ObtainUserUtils {
     }
 
     public static String getUserMobile(HttpServletRequest request) throws ServerException {
-        if (request.getAttribute("userMobile") == null) {
+        if (request.getParameter("userMobile") == null) {
             throw new ServerException("用户手机号不存在");
         }
-        String userMobile = request.getAttribute("userMobile").toString();
+        String userMobile = request.getParameter("userMobile");
         if (userMobile == null) {
             throw new ServerException("用户手机号不存在");
         }

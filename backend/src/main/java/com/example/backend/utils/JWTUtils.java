@@ -85,7 +85,6 @@ public class JWTUtils {
     // 解析token
     public DecodedJWT resolveJwt(String headerToken){
         String token = this.convertToken(headerToken);
-        System.out.println(token);
         if(token == null)return null;
         Algorithm algorithm = Algorithm.HMAC256(key);
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();

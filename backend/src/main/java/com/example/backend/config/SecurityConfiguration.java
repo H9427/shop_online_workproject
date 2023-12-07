@@ -39,7 +39,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         return http.authorizeHttpRequests(conf -> conf
-                .requestMatchers("/api/user/register","/api/user/identity","/api/user/resetPwd").permitAll()
+                .requestMatchers("/api/user/register","/api/user/identity**","/api/user/resetPwd").permitAll()
                 .anyRequest().authenticated()
         ).formLogin(conf -> conf
                 .loginProcessingUrl("/api/user/login")

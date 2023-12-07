@@ -3,7 +3,6 @@ package com.example.backend.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.entity.bean.Users;
-import com.example.backend.entity.vo.query.UserIdentityQuery;
 import com.example.backend.entity.vo.query.UserInformationModifyQuery;
 import com.example.backend.entity.vo.query.UserRegisterQuery;
 import com.example.backend.entity.vo.query.UserResetPwdQuery;
@@ -37,7 +36,6 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         Users users = query().eq("user_name",userName)
                 .eq("user_mobile",userMobile)
                 .one();
-        System.out.println(users);
         if(users != null){
             return true;
         }

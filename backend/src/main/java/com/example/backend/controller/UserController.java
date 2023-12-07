@@ -74,7 +74,7 @@ public class UserController {
         }
     }
 
-    //查询个人信息
+    //查询用户信息
     @GetMapping("/queryInformation")
     @ResponseBody
     public void QueryInformation(String userName,HttpServletRequest request,HttpServletResponse response) throws IOException {
