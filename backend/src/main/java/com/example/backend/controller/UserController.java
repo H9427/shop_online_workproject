@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("/register")
     @ResponseBody
     public void Register(UserRegisterQuery query, HttpServletResponse response) throws IOException {
-        boolean state = usersService.RegisterUser(query);
+        boolean state = usersService.registerUser(query);
         response.setContentType("application/json;charset=utf-8");
         if(state){
             response.getWriter().write(RestBean.success("注册成功").asJsonString());
@@ -53,7 +53,7 @@ public class UserController {
     public void IdentityAuthentication(HttpServletRequest request,HttpServletResponse response) throws IOException {
         String userName = obtainUserUtils.getUserName(request);
         String userMobile = obtainUserUtils.getUserMobile(request);
-        boolean state = usersService.IdentityAuthentication(userName,userMobile);
+        boolean state = usersService.identityAuthentication(userName,userMobile);
         response.setContentType("application/json;charset=utf-8");
         if(state){
             response.getWriter().write(RestBean.success("认证成功").asJsonString());
@@ -66,7 +66,7 @@ public class UserController {
     @PostMapping("/resetPwd")
     @ResponseBody
     public void ResetPassword(UserResetPwdQuery query, HttpServletResponse response) throws IOException {
-        boolean state = usersService.ResetPassword(query);
+        boolean state = usersService.resetPassword(query);
         response.setContentType("application/json;charset=utf-8");
         if(state){
             response.getWriter().write(RestBean.success("密码修改成功").asJsonString());

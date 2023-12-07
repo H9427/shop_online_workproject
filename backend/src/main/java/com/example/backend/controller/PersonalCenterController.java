@@ -40,7 +40,7 @@ public class PersonalCenterController {
         DecodedJWT jwt = jwtutils.resolveJwt(authorization);
         Integer userId = jwtutils.toId(jwt);
 
-        UsersVO usersVO = personalCenterService.QueryInformation(userId);
+        UsersVO usersVO = personalCenterService.queryInformation(userId);
         response.setContentType("application/json;charset=utf-8");
         if(usersVO != null){
             response.getWriter().write(RestBean.success(usersVO).asJsonString());
@@ -58,7 +58,7 @@ public class PersonalCenterController {
         DecodedJWT jwt = jwtutils.resolveJwt(authorization);
         Integer userId = jwtutils.toId(jwt);
 
-        UsersVO usersVO = personalCenterService.ModifyInformation(userId,user);
+        UsersVO usersVO = personalCenterService.modifyInformation(userId,user);
         response.setContentType("application/json;charset=utf-8");
         if(usersVO != null){
             response.getWriter().write(RestBean.success(usersVO,"个人信息修改成功").asJsonString());
