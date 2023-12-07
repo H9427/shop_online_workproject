@@ -1,11 +1,12 @@
-package com.example.backend.entity.vo;
+package com.example.backend.entity.vo.query;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+//添加地址请求
 @Data
-public class UserAddressVO {
-    private Integer addressId;
-    private Integer userId;
+@AllArgsConstructor
+public class AddAddressQuery {
     private String receiverName;
     private String receiverMobile;
     private String province;//省份

@@ -33,7 +33,7 @@ import java.util.UUID;
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements UsersService {
 
     @Override
-    public boolean RegisterUser(UserRegisterQuery userRegisterQuery) {
+    public boolean registerUser(UserRegisterQuery userRegisterQuery) {
         if((query().eq("user_name",userRegisterQuery.getUserName()).one()) == null){
             String Pwd = new BCryptPasswordEncoder().encode(userRegisterQuery.getUserPwd());
             Users users = new Users(null,userRegisterQuery.getUserName(),Pwd,null,null,"https://hbimg.huabanimg.com/07b029c67010c0a17a1c78fcbc92ce612de4cf3ae8dd-Oc4KXC_fw658",null,null,new Date());
@@ -44,7 +44,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     @Override
-    public boolean IdentityAuthentication(String userName,String userMobile) {
+    public boolean identityAuthentication(String userName,String userMobile) {
         Users users = query().eq("user_name",userName)
                 .eq("user_mobile",userMobile)
                 .one();
@@ -55,7 +55,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     @Override
-    public boolean ResetPassword(UserResetPwdQuery userResetPwdQuery) {
+    public boolean resetPassword(UserResetPwdQuery userResetPwdQuery) {
         try{
             Users users =  query().eq("user_name",userResetPwdQuery.getUserName()).one();
             String Pwd = new BCryptPasswordEncoder().encode(userResetPwdQuery.getUserPwd());

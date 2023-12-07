@@ -32,7 +32,7 @@ public class PersonalCenterServiceImpl extends ServiceImpl<UsersMapper, Users> i
     private final AliyunResource aliyunResource;
 
     @Override
-    public UsersVO QueryInformation(Integer userId) {
+    public UsersVO queryInformation(Integer userId) {
         Users users = query().eq("id",userId).one();
         UsersVO usersVO = new UsersVO();
         usersVO.setId(users.getId());
@@ -48,7 +48,7 @@ public class PersonalCenterServiceImpl extends ServiceImpl<UsersMapper, Users> i
     }
 
     @Override
-    public UsersVO ModifyInformation(Integer userId,UserInformationModifyQuery user) {
+    public UsersVO modifyInformation(Integer userId,UserInformationModifyQuery user) {
         Users user1 = query().eq("id",userId).one();
         String Pwd = new BCryptPasswordEncoder().encode(user.getUserPwd());
         user1.setUserPwd(Pwd);
