@@ -1,4 +1,3 @@
-<!-- Navbar.vue -->
 <template>
   <nav class="bg-base-200">
     <div role="tablist" class="tabs tabs-bordered">
