@@ -33,10 +33,11 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     @Override
-    public boolean IdentityAuthentication(UserIdentityQuery userIdentityQuery) {
-        Users users = query().eq("user_name",userIdentityQuery.getUserName())
-                .eq("user_mobile",userIdentityQuery.getUserMobile())
+    public boolean IdentityAuthentication(String userName,String userMobile) {
+        Users users = query().eq("user_name",userName)
+                .eq("user_mobile",userMobile)
                 .one();
+        System.out.println(users);
         if(users != null){
             return true;
         }
@@ -57,8 +58,8 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     @Override
-    public UsersVO QueryInformation(String userName) {
-        Users users = query().eq("user_name",userName).one();
+    public UsersVO QueryInformation(Integer userId) {
+        Users users = query().eq("id",userId).one();
         UsersVO usersVO = new UsersVO();
         usersVO.setId(users.getId());
         usersVO.setUserName(users.getUserName());
@@ -73,8 +74,8 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     @Override
-    public UsersVO ModifyInformation(UserInformationModifyQuery user) {
-        Users user1 = query().eq("user_name",user.getUserName()).one();
+    public UsersVO ModifyInformation(Integer userId,UserInformationModifyQuery user) {
+        Users user1 = query().eq("id",userId).one();
         String Pwd = new BCryptPasswordEncoder().encode(user.getUserPwd());
         user1.setUserPwd(Pwd);
         user1.setNickName(user.getNickName());

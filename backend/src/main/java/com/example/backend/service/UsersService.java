@@ -23,14 +23,14 @@ public interface UsersService extends IService<Users>, UserDetailsService {
     public boolean RegisterUser(UserRegisterQuery userRegisterQuery);
 
     //通过用户名和手机号身份认证
-    public boolean IdentityAuthentication(UserIdentityQuery userIdentityQuery);
+    public boolean IdentityAuthentication(String userName,String userMobile);
 
     //修改密码
     public boolean ResetPassword(UserResetPwdQuery userResetPwdQuery);
 
     //个人信息查询
-    public UsersVO QueryInformation(String userName);
+    public UsersVO QueryInformation(Integer userId);
 
     //修改个人信息
-    public UsersVO ModifyInformation(UserInformationModifyQuery user);
+    public UsersVO ModifyInformation(Integer userId,UserInformationModifyQuery user);
 }

@@ -8,8 +8,6 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 public class UserInformationModifyQuery {
-    private Integer id;
-    private String userName;
     private String userPwd;
     private String nickName;
     private String realName;

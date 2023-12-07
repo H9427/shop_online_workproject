@@ -9,6 +9,7 @@ import com.example.backend.entity.vo.query.UserResetPwdQuery;
 import com.example.backend.entity.vo.response.UsersVO;
 import com.example.backend.service.UsersService;
 import com.example.backend.utils.JWTUtils;
+import com.example.backend.utils.ObtainUserUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +27,12 @@ public class UserController {
     @Resource
     UsersService usersService;
 
+    @Resource
+    JWTUtils jwtutils;
+
+    @Resource
+    ObtainUserUtils obtainUserUtils;
+
     //注册
     @PostMapping("/register")
     @ResponseBody
@@ -40,10 +47,12 @@ public class UserController {
     }
 
     //信息修改时身份认证
-    @PostMapping("/identity")
+    @GetMapping("/identity")
     @ResponseBody
-    public void IdentityAuthentication(UserIdentityQuery query, HttpServletResponse response) throws IOException {
-        boolean state = usersService.IdentityAuthentication(query);
+    public void IdentityAuthentication(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String userName = obtainUserUtils.getUserName(request);
+        String userMobile = obtainUserUtils.getUserMobile(request);
+        boolean state = usersService.IdentityAuthentication(userName,userMobile);
         response.setContentType("application/json;charset=utf-8");
         if(state){
             response.getWriter().write(RestBean.success().asJsonString());
@@ -61,15 +70,20 @@ public class UserController {
         if(state){
             response.getWriter().write(RestBean.success().asJsonString());
         }else {
-            response.getWriter().write(RestBean.unauthorized("密码修改错误").asJsonString());
+            response.getWriter().write(RestBean.unauthorized("未查询到用户信息").asJsonString());
         }
     }
 
     //查询个人信息
     @GetMapping("/queryInformation")
     @ResponseBody
-    public void QueryInformation(String userName, HttpServletResponse response) throws IOException {
-        UsersVO usersVO = usersService.QueryInformation(userName);
+    public void QueryInformation(String userName,HttpServletRequest request,HttpServletResponse response) throws IOException {
+        //查询
+        String authorization = request.getHeader("Authorization");
+        DecodedJWT jwt = jwtutils.resolveJwt(authorization);
+        Integer userId = jwtutils.toId(jwt);
+
+        UsersVO usersVO = usersService.QueryInformation(userId);
         response.setContentType("application/json;charset=utf-8");
         if(usersVO != null){
             response.getWriter().write(RestBean.success(usersVO).asJsonString());
@@ -83,16 +97,9 @@ public class UserController {
     @ResponseBody
     public void ModifyInformation(UserInformationModifyQuery user, HttpServletRequest request,HttpServletResponse response) throws IOException {
         String authorization = request.getHeader("Authorization");
-        System.out.println("我是" + authorization);
-        JWTUtils jwtUtils = new JWTUtils();
-        System.out.println("我是2");
-        DecodedJWT decodedJWT = jwtUtils.resolveJwt(authorization);
-        System.out.println("我是2" + decodedJWT);
-        Integer userId = jwtUtils.toId(decodedJWT);
-        System.out.println(userId);
-        UserDetails userDetails = jwtUtils.toUser(decodedJWT);
-        System.out.println(userDetails);
-        UsersVO usersVO = usersService.ModifyInformation(user);
+        DecodedJWT jwt = jwtutils.resolveJwt(authorization);
+        Integer userId = jwtutils.toId(jwt);
+        UsersVO usersVO = usersService.ModifyInformation(userId,user);
         response.setContentType("application/json;charset=utf-8");
         if(usersVO != null){
             response.getWriter().write(RestBean.success(usersVO).asJsonString());
