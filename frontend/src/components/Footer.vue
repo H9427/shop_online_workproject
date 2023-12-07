@@ -1,9 +1,8 @@
 <!-- Footer.vue -->
 <template>
   <div>
-    <!-- Your Footer content goes here -->
     <footer>
-      <!-- Footer content -->
+      
     </footer>
   </div>
 </template>
