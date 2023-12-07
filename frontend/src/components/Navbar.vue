@@ -3,16 +3,16 @@
   <nav class="bg-base-200">
     <div role="tablist" class="tabs tabs-bordered">
       <input style="width: 100px; margin-right: 10px; margin-left: 100px; margin-top: 20px; font-size: 20px" type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Home" checked />
-      <div role="tabpanel" class="tab-content p-10">Tab content 1</div>
+      <div role="tabpanel" class="tab-content p-10">Home</div>
 
       <input style="width: 100px; margin-right: 10px; font-size: 20px" type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Clothes" />
-      <div role="tabpanel" class="tab-content p-10">Tab content 2</div>
+      <div role="tabpanel" class="tab-content p-10">Clothes</div>
 
       <input style="width: 100px; margin-right: 10px; font-size: 20px" type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Shoes" />
-      <div role="tabpanel" class="tab-content p-10">Tab content 3</div>
+      <div role="tabpanel" class="tab-content p-10">Shoes</div>
 
       <!-- 切换风格 -->
-      <div class="flex" style="margin-top: 5px; margin-bottom: 5px; margin-left: 850%">
+      <div class="flex" style="margin-top: 5px; margin-bottom: 5px; margin-left: 800%">
         <label class="swap swap-rotate">
           <input type="checkbox" @click="handleChangeTheme" />
           <svg class="swap-on fill-current w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -27,7 +27,12 @@
         <button class="btn btn-sm btn-primary" @click="$router.push('/register')" style="margin-left: 5px; margin-right: 5px">注册</button>
       </div>
     </div>
+    <footer class="bg-neutral-content" >
+      123
+    </footer>
   </nav>
+
+
 </template>
 
 <script setup>
@@ -44,5 +49,12 @@ const handleChangeTheme = () => {
 </script>
 
 <style scoped>
-/* Navbar component styles */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+
+}
 </style>
