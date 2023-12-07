@@ -1,18 +1,22 @@
 <!-- Footer.vue -->
 <template>
   <div>
-    <footer>
-      
-    </footer>
+
   </div>
 </template>
 
 <script>
-export default {
-  // Footer component logic
-}
+
 </script>
 
 <style scoped>
-/* Footer component styles */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  padding: 10px;
+
+}
 </style>
