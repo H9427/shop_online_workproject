@@ -27,12 +27,7 @@
         <button class="btn btn-sm btn-primary" @click="$router.push('/register')" style="margin-left: 5px; margin-right: 5px">注册</button>
       </div>
     </div>
-    <footer class="bg-neutral-content" >
-      底部栏
-    </footer>
   </nav>
-
-
 </template>
 
 <script setup>
@@ -48,13 +43,4 @@ const handleChangeTheme = () => {
 };
 </script>
 
-<style scoped>
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 10px;
-
-}
-</style>
+<style scoped></style>
