@@ -1,8 +1,8 @@
 <!-- Navbar.vue -->
 <template>
   <nav class="bg-base-200">
-    <div role="tablist" class="tabs tabs-bordered" style="margin-left: 50px; margin-top: 20px">
-      <input style="width: 100px; margin-right: 10px; font-size: 20px" type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Home" checked />
+    <div role="tablist" class="tabs tabs-bordered">
+      <input style="width: 100px; margin-right: 10px; margin-left: 100px; margin-top: 20px; font-size: 20px" type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Home" checked />
       <div role="tabpanel" class="tab-content p-10">Tab content 1</div>
 
       <input style="width: 100px; margin-right: 10px; font-size: 20px" type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Clothes" />
@@ -12,7 +12,7 @@
       <div role="tabpanel" class="tab-content p-10">Tab content 3</div>
 
       <!-- 切换风格 -->
-      <div class="flex" style="margin-top: 5px; margin-bottom: 5px; margin-left: 1350px">
+      <div class="flex" style="margin-top: 5px; margin-bottom: 5px; margin-left: 850%">
         <label class="swap swap-rotate">
           <input type="checkbox" @click="handleChangeTheme" />
           <svg class="swap-on fill-current w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
