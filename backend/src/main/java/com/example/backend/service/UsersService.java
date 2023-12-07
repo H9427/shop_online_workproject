@@ -10,6 +10,9 @@ import com.example.backend.entity.vo.response.UsersVO;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.rmi.ServerException;
 
 public interface UsersService extends IService<Users>, UserDetailsService {
 
@@ -28,9 +31,5 @@ public interface UsersService extends IService<Users>, UserDetailsService {
     //修改密码
     public boolean ResetPassword(UserResetPwdQuery userResetPwdQuery);
 
-    //个人信息查询
-    public UsersVO QueryInformation(Integer userId);
 
-    //修改个人信息
-    public UsersVO ModifyInformation(Integer userId,UserInformationModifyQuery user);
 }

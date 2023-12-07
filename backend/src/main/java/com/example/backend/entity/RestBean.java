@@ -7,7 +7,12 @@ public record RestBean<T>(int code, T data, String message) {
     public static <T> RestBean<T> success(T data){
         return new RestBean<>(200,data,"请求成功");
     }
-
+    public static <T> RestBean<T> success(String message){
+        return new RestBean<>(200,null,message);
+    }
+    public static <T> RestBean<T> success(T data,String message){
+        return new RestBean<>(200,data,message);
+    }
     public static <T> RestBean<T> success(){
         return success(null);
     }

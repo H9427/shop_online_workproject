@@ -1,5 +1,7 @@
 package com.example.backend.service.impl;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.entity.bean.Users;
@@ -9,17 +11,27 @@ import com.example.backend.entity.vo.query.UserResetPwdQuery;
 import com.example.backend.entity.vo.response.UsersVO;
 import com.example.backend.mapper.UsersMapper;
 import com.example.backend.service.UsersService;
+import com.example.backend.utils.AliyunResource;
+import com.example.backend.utils.FileResource;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.rmi.ServerException;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements UsersService {
+
     @Override
     public boolean RegisterUser(UserRegisterQuery userRegisterQuery) {
         if((query().eq("user_name",userRegisterQuery.getUserName()).one()) == null){
@@ -55,37 +67,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         return true;
     }
 
-    @Override
-    public UsersVO QueryInformation(Integer userId) {
-        Users users = query().eq("id",userId).one();
-        UsersVO usersVO = new UsersVO();
-        usersVO.setId(users.getId());
-        usersVO.setUserName(users.getUserName());
-        usersVO.setUserPwd(users.getUserPwd());
-        usersVO.setNickName(users.getNickName());
-        usersVO.setRealName(users.getRealName());
-        usersVO.setUserImg(users.getUserImg());
-        usersVO.setUserMobile(users.getUserMobile());
-        usersVO.setUserSex(users.getUserSex());
-        usersVO.setUserRegtime(users.getUserRegtime());
-        return usersVO;
-    }
 
-    @Override
-    public UsersVO ModifyInformation(Integer userId,UserInformationModifyQuery user) {
-        Users user1 = query().eq("id",userId).one();
-        String Pwd = new BCryptPasswordEncoder().encode(user.getUserPwd());
-        user1.setUserPwd(Pwd);
-        user1.setNickName(user.getNickName());
-        user1.setRealName(user.getRealName());
-        user1.setUserImg(user.getUserImg());
-        user1.setUserMobile(user.getUserMobile());
-        user1.setUserSex(user.getUserSex());
-        baseMapper.updateById(user1);
-        UsersVO usersVO = new UsersVO();
-        BeanUtils.copyProperties(user1,usersVO);
-        return usersVO;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
