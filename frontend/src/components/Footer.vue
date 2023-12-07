@@ -1,4 +1,8 @@
-<template></template>
+<template>
+  <div>
+    aa
+  </div>
+</template>
 
 <script></script>
 
