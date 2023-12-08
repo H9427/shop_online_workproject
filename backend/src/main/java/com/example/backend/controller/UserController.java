@@ -1,12 +1,8 @@
 package com.example.backend.controller;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backend.entity.RestBean;
-import com.example.backend.entity.vo.query.UserIdentityQuery;
-import com.example.backend.entity.vo.query.UserInformationModifyQuery;
-import com.example.backend.entity.vo.query.UserRegisterQuery;
-import com.example.backend.entity.vo.query.UserResetPwdQuery;
-import com.example.backend.entity.vo.response.UsersVO;
+import com.example.backend.entity.vo.request.UserRegisterRequest;
+import com.example.backend.entity.vo.request.UserResetPwdRequest;
 import com.example.backend.service.UsersService;
 import com.example.backend.utils.JWTUtils;
 import com.example.backend.utils.ObtainUserUtils;
@@ -14,9 +10,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -37,7 +31,7 @@ public class UserController {
     //注册
     @PostMapping("/register")
     @ResponseBody
-    public void Register(UserRegisterQuery query, HttpServletResponse response) throws IOException {
+    public void Register(UserRegisterRequest query, HttpServletResponse response) throws IOException {
         boolean state = usersService.registerUser(query);
         response.setContentType("application/json;charset=utf-8");
         if(state){
@@ -65,7 +59,7 @@ public class UserController {
     //重置密码
     @PostMapping("/resetPwd")
     @ResponseBody
-    public void ResetPassword(UserResetPwdQuery query, HttpServletResponse response) throws IOException {
+    public void ResetPassword(UserResetPwdRequest query, HttpServletResponse response) throws IOException {
         boolean state = usersService.resetPassword(query);
         response.setContentType("application/json;charset=utf-8");
         if(state){

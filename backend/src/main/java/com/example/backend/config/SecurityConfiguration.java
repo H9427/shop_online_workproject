@@ -2,7 +2,7 @@ package com.example.backend.config;
 
 import com.example.backend.entity.RestBean;
 import com.example.backend.entity.bean.Users;
-import com.example.backend.entity.vo.response.AuthorizeVO;
+import com.example.backend.entity.vo.response.AuthorizeResponse;
 import com.example.backend.filter.JwtAuthorizeFilter;
 import com.example.backend.service.UsersService;
 import com.example.backend.utils.JWTUtils;
@@ -80,7 +80,7 @@ public class SecurityConfiguration {
         User user = (User) authentication.getPrincipal();
         Users users =  service.findAccountByName(user.getUsername());
         String token = utils.createJwt( user,users.getId(), users.getUserName());
-        AuthorizeVO vo = new AuthorizeVO();
+        AuthorizeResponse vo = new AuthorizeResponse();
         //设置返回的登录成功信息
         vo.setUsername(users.getUserName());
         vo.setToken(token);
