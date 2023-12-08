@@ -9,11 +9,37 @@
   </div>
   <!-- 主体 -->
   <div class="custom-div">
-    <!-- 热销商品 -->
-    <p style="text-align: center; font-size: 2ch; margin-top: 20px" class="italic ...">新季魅力</p>
+    <p style="text-align: center; font-size: 2ch; margin-top: 80px" class="italic ...">新季魅力</p>
     <p style="text-align: center; font-size: 2ch" class="italic ...">New Season’s Charm</p>
 
+    <!-- 推荐 -->
+    <div>
+      <el-row :gutter="36" style="padding-top: 15px;">
+        <!-- 左边 -->
+        <el-col :span="12" class="mb-10" style="padding-left: 15%">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 100%">
+            <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953293454.jpg" class="image" />
+          </el-card>
+        </el-col>
+        <!-- 右边 -->
+        <el-col :span="12" class="mb-10">
+          <div>
+            <!-- 右边-上 -->
+            <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 70%">
+              <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953301625.jpg" class="image" />
+            </el-card>
+            <!-- 右边-下 -->
+            <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 70%; margin-top: 4.1%">
+              <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953310028.jpg" class="image" />
+            </el-card>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
 
+    <!-- 热销商品 -->
+    <div class="divider divider-neutral" style="margin-top: 110px;">Hot Clothes</div>
+    <p class="italic ...">The quick brown fox ...</p>
     <div class="mt-3">
       <el-row :gutter="36">
         <el-col v-for="(o, index) in 8" :key="o" :span="6" class="mb-10">
@@ -27,9 +53,12 @@
         </el-col>
       </el-row>
     </div>
+    <button style="text-align: center;padding:8px;margin-left: 46%;" class="border-double border-4 border-gray-400 ..."> 查看更多 > </button>
+
+  
 
     <!-- 女士商品 -->
-    <div class="divider divider-neutral">Hot Clothes</div>
+    <div class="divider divider-neutral" style="margin-top: 110px;">Hot Clothes</div>
     <p class="italic ...">The quick brown fox ...</p>
     <div>
       <el-row :gutter="36">
