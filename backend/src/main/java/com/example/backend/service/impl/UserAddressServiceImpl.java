@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.convert.AddressConvert;
 import com.example.backend.entity.bean.UserAddress;
 import com.example.backend.entity.vo.request.AddressAddRequest;
+import com.example.backend.entity.vo.request.AddressDeleteRequest;
 import com.example.backend.entity.vo.request.AddressEditRequest;
 import com.example.backend.entity.vo.response.UserAddressResponse;
 import com.example.backend.mapper.UserAddressMapper;
@@ -65,5 +66,16 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
         baseMapper.updateById(userAddress);
         UserAddressResponse results = AddressConvert.convertToAddressResponse(userAddress);
         return results;
+    }
+
+    @Override
+    public boolean deleteAddress(Integer userId, AddressDeleteRequest addressDeleteRequest) {
+        UserAddress userAddress = query().eq("user_id", userId).eq("address_id", addressDeleteRequest.getAddressId()).one();
+        if(userAddress != null){
+            userAddress.setDeleteFlag(0);
+            baseMapper.updateById(userAddress);
+            return true;
+        }
+        return false;
     }
 }
