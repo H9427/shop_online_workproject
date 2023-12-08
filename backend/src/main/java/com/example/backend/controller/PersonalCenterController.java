@@ -2,10 +2,9 @@ package com.example.backend.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backend.entity.RestBean;
-import com.example.backend.entity.vo.query.UserInformationModifyQuery;
-import com.example.backend.entity.vo.response.UsersVO;
+import com.example.backend.entity.vo.request.UserInformationEditRequest;
+import com.example.backend.entity.vo.response.UsersResponse;
 import com.example.backend.service.PersonalCenterService;
-import com.example.backend.service.UsersService;
 import com.example.backend.utils.JWTUtils;
 import com.example.backend.utils.ObtainUserUtils;
 import jakarta.annotation.Resource;
@@ -40,7 +39,7 @@ public class PersonalCenterController {
         DecodedJWT jwt = jwtutils.resolveJwt(authorization);
         Integer userId = jwtutils.toId(jwt);
 
-        UsersVO usersVO = personalCenterService.queryInformation(userId);
+        UsersResponse usersVO = personalCenterService.queryInformation(userId);
         response.setContentType("application/json;charset=utf-8");
         if(usersVO != null){
             response.getWriter().write(RestBean.success(usersVO).asJsonString());
@@ -52,13 +51,13 @@ public class PersonalCenterController {
     //修改个人信息
     @PostMapping("/modifyInformation")
     @ResponseBody
-    public void ModifyInformation(UserInformationModifyQuery user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void ModifyInformation(UserInformationEditRequest user, HttpServletRequest request, HttpServletResponse response) throws IOException {
         //获取token，并通过token获取用户id
         String authorization = request.getHeader("Authorization");
         DecodedJWT jwt = jwtutils.resolveJwt(authorization);
         Integer userId = jwtutils.toId(jwt);
 
-        UsersVO usersVO = personalCenterService.modifyInformation(userId,user);
+        UsersResponse usersVO = personalCenterService.modifyInformation(userId,user);
         response.setContentType("application/json;charset=utf-8");
         if(usersVO != null){
             response.getWriter().write(RestBean.success(usersVO,"个人信息修改成功").asJsonString());

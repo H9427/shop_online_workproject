@@ -5,10 +5,10 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class AuthorizeVO {
-    private String username;
-    private String token;
-    private Date expire;//token过期时间
+public class UsersResponse {
+    private Integer id;
+    private String userName;
+    private String userPwd;
     private String nickName;
     private String realName;
     private String userImg;

@@ -4,11 +4,10 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.entity.bean.Users;
-import com.example.backend.entity.vo.query.UserInformationModifyQuery;
-import com.example.backend.entity.vo.response.UsersVO;
+import com.example.backend.entity.vo.request.UserInformationEditRequest;
+import com.example.backend.entity.vo.response.UsersResponse;
 import com.example.backend.mapper.UsersMapper;
 import com.example.backend.service.PersonalCenterService;
-import com.example.backend.service.UsersService;
 import com.example.backend.utils.AliyunResource;
 import com.example.backend.utils.FileResource;
 import lombok.AllArgsConstructor;
@@ -32,9 +31,9 @@ public class PersonalCenterServiceImpl extends ServiceImpl<UsersMapper, Users> i
     private final AliyunResource aliyunResource;
 
     @Override
-    public UsersVO queryInformation(Integer userId) {
+    public UsersResponse queryInformation(Integer userId) {
         Users users = query().eq("id",userId).one();
-        UsersVO usersVO = new UsersVO();
+        UsersResponse usersVO = new UsersResponse();
         usersVO.setId(users.getId());
         usersVO.setUserName(users.getUserName());
         usersVO.setUserPwd(users.getUserPwd());
@@ -48,7 +47,7 @@ public class PersonalCenterServiceImpl extends ServiceImpl<UsersMapper, Users> i
     }
 
     @Override
-    public UsersVO modifyInformation(Integer userId,UserInformationModifyQuery user) {
+    public UsersResponse modifyInformation(Integer userId, UserInformationEditRequest user) {
         Users user1 = query().eq("id",userId).one();
         String Pwd = new BCryptPasswordEncoder().encode(user.getUserPwd());
         user1.setUserPwd(Pwd);
@@ -58,7 +57,7 @@ public class PersonalCenterServiceImpl extends ServiceImpl<UsersMapper, Users> i
         user1.setUserMobile(user.getUserMobile());
         user1.setUserSex(user.getUserSex());
         baseMapper.updateById(user1);
-        UsersVO usersVO = new UsersVO();
+        UsersResponse usersVO = new UsersResponse();
         BeanUtils.copyProperties(user1,usersVO);
         return usersVO;
     }

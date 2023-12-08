@@ -1,13 +1,11 @@
-package com.example.backend.entity.vo.query;
+package com.example.backend.entity.vo.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 @AllArgsConstructor
-public class UserInformationModifyQuery {
+public class UserInformationEditRequest {
     private String userPwd;
     private String nickName;
     private String realName;
