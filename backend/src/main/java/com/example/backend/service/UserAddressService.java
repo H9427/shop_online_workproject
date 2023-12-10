@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.backend.entity.bean.UserAddress;
 import com.example.backend.entity.vo.request.AddressAddRequest;
+import com.example.backend.entity.vo.request.AddressDeleteRequest;
 import com.example.backend.entity.vo.request.AddressEditRequest;
 import com.example.backend.entity.vo.response.UserAddressResponse;
 
@@ -18,4 +19,7 @@ public interface UserAddressService extends IService<UserAddress> {
 
     //编辑地址信息
     public UserAddressResponse editAddress(Integer userId, AddressEditRequest addressEditRequest);
+
+    //删除地址
+    public boolean deleteAddress(Integer userId, AddressDeleteRequest addressDeleteRequest);
 }
