@@ -40,6 +40,11 @@ const router = createRouter({
       name: "wClothes",
       component: () => import("@/views/clothes/wClothesView.vue"),
     },
+    {
+      path: "/mClothes",
+      name: "mClothes",
+      component: () => import("@/views/clothes/mClothesView.vue"),
+    },
     // {
     //   path: "/shoes",
     //   name: "shoes",
