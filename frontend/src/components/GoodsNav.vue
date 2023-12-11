@@ -3,10 +3,12 @@
     <div class="flex-1">
       <a class="btn btn-ghost text-xl" @click="$router.push('/')">daisyShopping</a>
 
-      <div class="navbar-center hidden lg:flex" style="margin-left: 35%;">
+      <div class="navbar-center hidden lg:flex" style="margin-left: 33%">
         <ul class="menu menu-horizontal px-1">
           <li><a @click="$router.push('/wClothes')">Clothes</a></li>
           <li><a>Shoes</a></li>
+          <li><a>Perfume</a></li>
+          <li><a>HandBag</a></li>
         </ul>
       </div>
     </div>

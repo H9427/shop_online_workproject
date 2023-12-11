@@ -1,11 +1,11 @@
 <template>
   <!-- 轮播图 -->
   <div>
-    <el-carousel indicator-position="outside" height="865px">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3 text="2xl" justify="center">{{ item }}</h3>
-      </el-carousel-item>
-    </el-carousel>
+    <el-carousel indicator-position="outside" height="1000px">
+    <el-carousel-item v-for="(item, index) in imageLinks" :key="index">
+      <img :src="item" alt="carousel-image" style="width: 100%; height: 100%;">
+    </el-carousel-item>
+  </el-carousel>
   </div>
   <!-- 主体 -->
   <div class="custom-div">
@@ -17,8 +17,8 @@
       <el-row :gutter="36" style="padding-top: 15px">
         <!-- 左边 -->
         <el-col :span="12" class="mb-10" style="padding-left: 15%">
-          <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 100%; position: relative">
-            <a target="_blank" href="">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 100%; position: relative; cursor: pointer">
+            <a @click="$router.push('/wClothes')">
               <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953293454.jpg" class="image" />
               <div class="title">
                 女士精选&nbsp;&nbsp;<el-icon><ArrowRight /></el-icon>
@@ -30,8 +30,8 @@
         <el-col :span="12" class="mb-10">
           <div>
             <!-- 右边-上 -->
-            <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 70%; position: relative">
-              <a target="_blank" href="">
+            <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 70%; position: relative; cursor: pointer">
+              <a @click="$router.push('/mClothes')">
                 <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953301625.jpg" class="image" />
                 <div class="title">
                   男士精选&nbsp;&nbsp;<el-icon><ArrowRight /></el-icon>
@@ -107,7 +107,7 @@
           </el-card>
         </el-col>
       </el-row>
-      <button style="display: flex; align-items: center; text-align: center; padding: 8px; margin-left: 46%;margin-bottom: 50px;" class="border-double border-4 border-gray-400 ...">
+      <button style="display: flex; align-items: center; text-align: center; padding: 8px; margin-left: 46%; margin-bottom: 50px" class="border-double border-4 border-gray-400 ...">
         查看更多&nbsp;<el-icon><ArrowRight /></el-icon>
       </button>
     </div>
@@ -116,6 +116,12 @@
 
 <script setup>
 import { ArrowRight } from "@element-plus/icons-vue";
+const imageLinks = [
+      'https://ufm-pic.ur.com.cn/image/tmp/1699261975019.jpg',
+      'https://ufm-pic.ur.com.cn/image/tmp/1695299239702.jpg',
+      'https://ufm-pic.ur.com.cn/image/tmp/1700021291263.jpg',
+      'https://ufm-pic.ur.com.cn/image/tmp/1702004345727.jpg'
+    ];
 </script>
 
 <style scoped>
@@ -143,21 +149,5 @@ import { ArrowRight } from "@element-plus/icons-vue";
 .custom-div {
   width: 70%;
   margin: 0 auto; /* 居中 */
-}
-
-.el-carousel__item h3 {
-  display: flex;
-  color: #475669;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
 }
 </style>

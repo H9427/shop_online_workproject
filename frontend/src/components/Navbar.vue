@@ -3,19 +3,13 @@
     <div class="navbar-start">
       <a class="btn btn-ghost text-xl" @click="$router.push('/')">daisyShopping</a>
     </div>
+
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
         <li><a @click="$router.push('/wClothes')">Clothes</a></li>
         <li><a>Shoes</a></li>
-        <li>
-          <details>
-            <summary>Parent</summary>
-            <ul>
-              <li><a>123</a></li>
-              <li><a>456</a></li>
-            </ul>
-          </details>
-        </li>
+        <li><a>Perfume</a></li>
+        <li><a>HandBag</a></li>
       </ul>
     </div>
     <div class="navbar-end">
