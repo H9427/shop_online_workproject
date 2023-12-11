@@ -31,15 +31,15 @@ const router = createRouter({
       ],
     },
     {
-      path: "/clothes",
-      name: "clothes",
-      component: () => import("@/views/ClothesView.vue"),
+      path: "/wClothes",
+      name: "wClothes",
+      component: () => import("@/views/clothes/wClothesView.vue"),
     },
-    {
-      path: "/shoes",
-      name: "shoes",
-      component: () => import("@/views/ShoesView.vue"),
-    },
+    // {
+    //   path: "/shoes",
+    //   name: "shoes",
+    //   component: () => import("@/views/shoes/ShoesView.vue"),
+    // },
   ],
 });
 

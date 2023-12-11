@@ -14,23 +14,38 @@
 
     <!-- 推荐 -->
     <div>
-      <el-row :gutter="36" style="padding-top: 15px;">
+      <el-row :gutter="36" style="padding-top: 15px">
         <!-- 左边 -->
         <el-col :span="12" class="mb-10" style="padding-left: 15%">
-          <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 100%">
-            <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953293454.jpg" class="image" />
+          <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 100%; position: relative">
+            <a target="_blank" href="">
+              <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953293454.jpg" class="image" />
+              <div class="title">
+                女士精选&nbsp;&nbsp;<el-icon><ArrowRight /></el-icon>
+              </div>
+            </a>
           </el-card>
         </el-col>
         <!-- 右边 -->
         <el-col :span="12" class="mb-10">
           <div>
             <!-- 右边-上 -->
-            <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 70%">
-              <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953301625.jpg" class="image" />
+            <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 70%; position: relative">
+              <a target="_blank" href="">
+                <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953301625.jpg" class="image" />
+                <div class="title">
+                  男士精选&nbsp;&nbsp;<el-icon><ArrowRight /></el-icon>
+                </div>
+              </a>
             </el-card>
             <!-- 右边-下 -->
-            <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 70%; margin-top: 4.1%">
-              <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953310028.jpg" class="image" />
+            <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 70%; position: relative; margin-top: 4.1%">
+              <a target="_blank" href="">
+                <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953310028.jpg" class="image" />
+                <div class="title">
+                  鞋包配饰&nbsp;&nbsp;<el-icon><ArrowRight /></el-icon>
+                </div>
+              </a>
             </el-card>
           </div>
         </el-col>
@@ -38,7 +53,7 @@
     </div>
 
     <!-- 热销商品 -->
-    <div class="divider divider-neutral" style="margin-top: 110px;">Hot Clothes</div>
+    <div class="divider divider-neutral" style="margin-top: 110px">Hot Clothes</div>
     <p class="italic ...">The quick brown fox ...</p>
     <div class="mt-3">
       <el-row :gutter="36">
@@ -53,12 +68,12 @@
         </el-col>
       </el-row>
     </div>
-    <button style="text-align: center;padding:8px;margin-left: 46%;" class="border-double border-4 border-gray-400 ..."> 查看更多 > </button>
-
-  
+    <button style="display: flex; align-items: center; text-align: center; padding: 8px; margin-left: 46%" class="border-double border-4 border-gray-400 ...">
+      查看更多&nbsp;<el-icon><ArrowRight /></el-icon>
+    </button>
 
     <!-- 女士商品 -->
-    <div class="divider divider-neutral" style="margin-top: 110px;">Hot Clothes</div>
+    <div class="divider divider-neutral" style="margin-top: 110px">Hot Clothes</div>
     <p class="italic ...">The quick brown fox ...</p>
     <div>
       <el-row :gutter="36">
@@ -72,10 +87,13 @@
           </el-card>
         </el-col>
       </el-row>
+      <button style="display: flex; align-items: center; text-align: center; padding: 8px; margin-left: 46%" class="border-double border-4 border-gray-400 ...">
+        查看更多&nbsp;<el-icon><ArrowRight /></el-icon>
+      </button>
     </div>
 
     <!-- 男士商品 -->
-    <div class="divider divider-neutral">Hot Clothes</div>
+    <div class="divider divider-neutral" style="margin-top: 110px">Hot Clothes</div>
     <p class="italic ...">The quick brown fox ...</p>
     <div>
       <el-row :gutter="36">
@@ -89,13 +107,34 @@
           </el-card>
         </el-col>
       </el-row>
+      <button style="display: flex; align-items: center; text-align: center; padding: 8px; margin-left: 46%;margin-bottom: 50px;" class="border-double border-4 border-gray-400 ...">
+        查看更多&nbsp;<el-icon><ArrowRight /></el-icon>
+      </button>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ArrowRight } from "@element-plus/icons-vue";
+</script>
 
 <style scoped>
+.title {
+  position: absolute;
+  width: 100%;
+  height: 60px;
+  font-size: 18px;
+  line-height: 60px; /* 与height相同，实现垂直居中 */
+  text-align: center;
+  background-color: rgba(48, 48, 48, 0.486);
+  color: rgba(255, 255, 255, 1);
+  bottom: 0;
+  left: 0;
+  display: flex; /* 使用flex布局 */
+  justify-content: center; /* 在水平方向上居中 */
+  align-items: center; /* 在垂直方向上居中 */
+}
+
 .image {
   width: 100%;
   display: block;
