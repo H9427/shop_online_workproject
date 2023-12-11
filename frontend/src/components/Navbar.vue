@@ -5,13 +5,12 @@
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
-        
-        <li><a @click="showClothes">Clothes</a></li>
+        <li><a @click="$router.push('/wClothes')">Clothes</a></li>
         <li><a>Shoes</a></li>
         <li>
           <details>
             <summary>Parent</summary>
-            <ul class="p-2">
+            <ul>
               <li><a>123</a></li>
               <li><a>456</a></li>
             </ul>
@@ -25,17 +24,6 @@
   </div>
 </template>
 
-<script setup>
-const setup = (props, { emit }) => {
-  const showClothes = () => {
-    emit('show-clothes');
-  };
-
-  // 返回供模板使用的数据和方法
-  return {
-    showClothes,
-  };
-};
-</script>
+<script setup></script>
 
 <style scoped></style>
