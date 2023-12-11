@@ -25,7 +25,15 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         System.out.println(userRegisterQuery.getUserPwd());
         if((query().eq("user_name",userRegisterQuery.getUserName()).one()) == null){
             String Pwd = new BCryptPasswordEncoder().encode(userRegisterQuery.getUserPwd());
-            Users users = new Users(null,userRegisterQuery.getUserName(),Pwd,null,null,"https://hbimg.huabanimg.com/07b029c67010c0a17a1c78fcbc92ce612de4cf3ae8dd-Oc4KXC_fw658",null,null,new Date());
+            Users users = new Users(null,
+                    userRegisterQuery.getUserName(),
+                    Pwd,
+                    null,
+                    null,
+                    "https://hbimg.huabanimg.com/07b029c67010c0a17a1c78fcbc92ce612de4cf3ae8dd-Oc4KXC_fw658",
+                    null,
+                    null,
+                    new Date());
             baseMapper.insert(users);
             return true;
         }
