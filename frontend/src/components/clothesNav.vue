@@ -1,7 +1,7 @@
 <template>
   <div class="navbar bg-base-100">
     <div class="flex-1">
-      <a class="btn btn-ghost text-xl">daisyUI</a>
+      <a @click="$router.push('/')" class="btn btn-ghost text-xl">daisyShopping</a>
     </div>
     <div class="flex-none gap-2">
       <div class="form-control">
