@@ -48,6 +48,7 @@ function deleteAccessToken() {
     sessionStorage.removeItem(authItemName)
 }
 
+//
 function internalPost(url, data, headers, success, failure, error = defaultError){
     axios.post(url, data, { headers: headers }).then(({data}) => {
         if(data.code === 200)
@@ -67,14 +68,15 @@ function internalGet(url, headers, success, failure, error = defaultError){
 }
 
 function login(username, password, remember, success, failure = defaultFailure){
-    internalPost('/api/auth/login', {
-        username: username,
-        password: password
+    internalPost('/api/user/login', {
+        userName: username,
+        userPwd: password
     }, {
         'Content-Type': 'application/x-www-form-urlencoded'
     }, (data) => {
         storeAccessToken(remember, data.token, data.expire)
-        ElMessage.success(`登录成功，欢迎 ${data.username} 来到我们的系统`)
+        ElMessage.success(`登录成功，欢迎 ${data.userName} 来到我们的系统`)
+        console.log(data);
         success(data)
     }, failure)
 }
@@ -84,7 +86,7 @@ function post(url, data, success, failure = defaultFailure) {
 }
 
 function logout(success, failure = defaultFailure){
-    get('/api/auth/logout', () => {
+    get('/api/user/logout', () => {
         deleteAccessToken()
         ElMessage.success(`退出登录成功，欢迎您再次使用`)
         success()
@@ -99,4 +101,4 @@ function unauthorized() {
     return !takeAccessToken()
 }
 
-export { post, get, login, logout, unauthorized }
+export { post, get, login, logout, unauthorized ,internalPost}
