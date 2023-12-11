@@ -35,11 +35,11 @@ const router = createRouter({
       name: "wClothes",
       component: () => import("@/views/clothes/wClothesView.vue"),
     },
-    {
-      path: "/shoes",
-      name: "shoes",
-      component: () => import("@/views/shoes/ShoesView.vue"),
-    },
+    // {
+    //   path: "/shoes",
+    //   name: "shoes",
+    //   component: () => import("@/views/shoes/ShoesView.vue"),
+    // },
   ],
 });
 
