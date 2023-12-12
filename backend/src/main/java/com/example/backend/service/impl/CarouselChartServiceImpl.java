@@ -16,27 +16,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CarouselChartServiceImpl extends ServiceImpl<CarouselChartMapper, CarouselChart> implements CarouselChartService {
-    @Override
-    public List<CarouselChartResponse> getChartsByType(String chartType) {
-        LambdaQueryWrapper<CarouselChart> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(CarouselChart::getChartType, chartType);
-        wrapper.orderByDesc(CarouselChart::getChartOrder);
-        List<CarouselChart> carouselCharts = baseMapper.selectList(wrapper);
-        List<CarouselChartResponse> carouselChartResponses = new ArrayList<>();
-        for (CarouselChart carouselChart:carouselCharts){
-            CarouselChartResponse carouselChartResponse = new CarouselChartResponse();
-            carouselChartResponse.setImgId(carouselChart.getImgId());
-            carouselChartResponse.setImgUrl(carouselChart.getImgUrl());
-            carouselChartResponse.setGoodsId(carouselChart.getGoodsId());
-            carouselChartResponse.setCategoryId(carouselChart.getCategoryId());
-            carouselChartResponse.setChartType(carouselChart.getChartType());
-            carouselChartResponse.setChartOrder(carouselChart.getChartOrder());
-            carouselChartResponse.setStatus(carouselChart.getStatus());
-            carouselChartResponse.setCreateTime(carouselChart.getCreateTime());
-            carouselChartResponses.add(carouselChartResponse);
-        }
-        return carouselChartResponses;
-    }
 
     @Override
     public List<CarouselChartResponse> getChartsByRandom(Integer number) {
@@ -50,11 +29,7 @@ public class CarouselChartServiceImpl extends ServiceImpl<CarouselChartMapper, C
             carouselChartResponse.setImgId(carouselChart.getImgId());
             carouselChartResponse.setImgUrl(carouselChart.getImgUrl());
             carouselChartResponse.setGoodsId(carouselChart.getGoodsId());
-            carouselChartResponse.setCategoryId(carouselChart.getCategoryId());
-            carouselChartResponse.setChartType(carouselChart.getChartType());
             carouselChartResponse.setChartOrder(carouselChart.getChartOrder());
-            carouselChartResponse.setStatus(carouselChart.getStatus());
-            carouselChartResponse.setCreateTime(carouselChart.getCreateTime());
             carouselChartResponses.add(carouselChartResponse);
         }
         return carouselChartResponses;

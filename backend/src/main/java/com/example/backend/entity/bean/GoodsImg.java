@@ -17,9 +17,6 @@ import java.util.Date;
 public class GoodsImg {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private Integer goodsId;
-    private String imgUrl;
-    private Integer sort;
-    private Integer isMain;
-    private Date createdTime;
+    private Integer goodsId;//商品id
+    private String imgUrl;//图片地址
 }

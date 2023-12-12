@@ -19,11 +19,6 @@ public class GoodsSku {
     private Integer skuId;
     private Integer goodsId;
     private String skuName;
-    private String skuImg;
     private BigDecimal originalPrice;
-    private BigDecimal sellPrice;
-    private BigDecimal discounts;
     private Integer stock;
-    private Integer status;
-    private Date createTime;
 }
