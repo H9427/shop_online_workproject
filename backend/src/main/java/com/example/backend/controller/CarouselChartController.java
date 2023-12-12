@@ -2,7 +2,6 @@ package com.example.backend.controller;
 
 import com.example.backend.entity.RestBean;
 import com.example.backend.entity.vo.response.CarouselChartResponse;
-import com.example.backend.entity.vo.response.CategoryResponse;
 import com.example.backend.service.CarouselChartService;
 import com.example.backend.utils.ObtainChartUtils;
 import jakarta.annotation.Resource;

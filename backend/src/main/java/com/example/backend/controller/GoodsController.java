@@ -31,10 +31,10 @@ public class GoodsController {
 
     @GetMapping("/details")
     @ResponseBody
-    public void ListGoods(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void GoodsDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer goodsId = obtainGoodsUtils.getGoodsId(request);
 
-        GoodsResponse goodsResponse = goodsService.listGoods(goodsId);
+        GoodsResponse goodsResponse = goodsService.goodsDetails(goodsId);
         response.setContentType("application/json;charset=utf-8");
         if(goodsResponse != null){
             response.getWriter().write(RestBean.success(goodsResponse,"查询成功").asJsonString());

@@ -1,7 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.entity.RestBean;
-import com.example.backend.entity.vo.response.CategoryResponse;
+import com.example.backend.entity.vo.response.CategoryClassAResponse;
 import com.example.backend.service.CategoryService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,7 +27,7 @@ public class CategoryController {
     @ResponseBody
     public void QueryAllCategory(HttpServletResponse response) throws IOException {
 
-        List<CategoryResponse> categoryResponses = categoryService.queryAllCategory();
+        List<CategoryClassAResponse> categoryResponses = categoryService.queryAllCategory();
         response.setContentType("application/json;charset=utf-8");
         if(categoryResponses != null){
             response.getWriter().write(RestBean.success(categoryResponses,"查找成功").asJsonString());

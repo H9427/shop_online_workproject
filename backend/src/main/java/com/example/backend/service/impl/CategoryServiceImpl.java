@@ -3,9 +3,12 @@ package com.example.backend.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.entity.bean.Category;
-import com.example.backend.entity.vo.response.CategoryResponse;
+import com.example.backend.entity.vo.response.CategoryClassAResponse;
+import com.example.backend.entity.vo.response.CategoryClassBResponse;
 import com.example.backend.mapper.CategoryMapper;
 import com.example.backend.service.CategoryService;
+import com.example.backend.service.GoodsService;
+import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +19,11 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
+    @Resource
+    GoodsService goodsService;
+
     @Override
-    public List<CategoryResponse> queryAllCategory() {
+    public List<CategoryClassAResponse> queryAllCategory() {
         LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Category::getCategoryLevel, 0);
         wrapper.orderByDesc(Category::getCategoryId);
@@ -25,21 +31,19 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         if(categories == null){
             return null;
         }
-        List<CategoryResponse> categoryResponses = new ArrayList<>();
+        List<CategoryClassAResponse> categoryClassAResponses = new ArrayList<>();
         for (Category category : categories){
-            CategoryResponse categoryResponse = new CategoryResponse();
+            CategoryClassAResponse categoryResponse = new CategoryClassAResponse();
             categoryResponse.setCategoryId(category.getCategoryId());
             categoryResponse.setCategoryName(category.getCategoryName());
-            categoryResponse.setCategoryLevel(category.getCategoryLevel());
-            categoryResponse.setParentId(category.getParentId());
             categoryResponse.setChilden(queryCategory(category.getCategoryId()));
-            categoryResponses.add(categoryResponse);
+            categoryClassAResponses.add(categoryResponse);
         }
-        return categoryResponses;
+        return categoryClassAResponses;
     }
 
     //查子集
-    private List<CategoryResponse> queryCategory(Integer categoryId){
+    private List<CategoryClassBResponse> queryCategory(Integer categoryId){
         LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Category::getParentId, categoryId);
         wrapper.orderByDesc(Category::getCategoryId);
@@ -47,16 +51,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         if(categories == null){
             return null;
         }
-        List<CategoryResponse> categoryResponses = new ArrayList<>();
+        List<CategoryClassBResponse> categoryClassBResponses = new ArrayList<>();
         for (Category category : categories){
-            CategoryResponse categoryResponse = new CategoryResponse();
+            CategoryClassBResponse categoryResponse = new CategoryClassBResponse();
             categoryResponse.setCategoryId(category.getCategoryId());
             categoryResponse.setCategoryName(category.getCategoryName());
-            categoryResponse.setCategoryLevel(category.getCategoryLevel());
-            categoryResponse.setParentId(category.getParentId());
-            categoryResponse.setChilden(queryCategory(category.getCategoryId()));
-            categoryResponses.add(categoryResponse);
+            categoryResponse.setGoods(goodsService.listGoodsByCategoryId(category.getCategoryId()));
+            categoryClassBResponses.add(categoryResponse);
         }
-        return categoryResponses;
+        return categoryClassBResponses;
     }
 }
