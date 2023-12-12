@@ -5,7 +5,6 @@ import com.example.backend.entity.bean.Goods;
 import com.example.backend.entity.vo.response.GoodsResponse;
 import com.example.backend.mapper.GoodsMapper;
 import com.example.backend.service.GoodsImgService;
-import com.example.backend.service.GoodsParamsService;
 import com.example.backend.service.GoodsService;
 import com.example.backend.service.GoodsSkuService;
 import jakarta.annotation.Resource;
@@ -20,9 +19,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     GoodsImgService goodsImgService;
 
     @Resource
-    GoodsParamsService goodsParamsService;
-
-    @Resource
     GoodsSkuService goodsSkuService;
 
     @Override
@@ -34,11 +30,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goodsResponse.setCategoryId(goods.getCategoryId());
         goodsResponse.setRootCategoryId(goods.getRootCategoryId());
         goodsResponse.setSoldNum(goods.getSoldNum());
-        goodsResponse.setStatus(goods.getStatus());
-        goodsResponse.setContext(goods.getContext());
-        goodsResponse.setCreateTime(goods.getCreateTime());
+        goodsResponse.setGoodsTrait(goods.getGoodsTrait());
+        goodsResponse.setInstructions(goods.getInstructions());
+        goodsResponse.setMaterial(goods.getMaterial());
         goodsResponse.setGoodsImg(goodsImgService.listGoodsImg(goodsId));
-        goodsResponse.setGoodsParams(goodsParamsService.listGoodsParams(goodsId));
         goodsResponse.setGoodsSku(goodsSkuService.listGoodsSku(goodsId));
         return goodsResponse;
     }

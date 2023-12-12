@@ -32,10 +32,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
             categoryResponse.setCategoryName(category.getCategoryName());
             categoryResponse.setCategoryLevel(category.getCategoryLevel());
             categoryResponse.setParentId(category.getParentId());
-            categoryResponse.setCategoryIcon(category.getCategoryIcon());
-            categoryResponse.setCategorySlogan(category.getCategorySlogan());
-            categoryResponse.setDeleteFlag(category.getDeleteFlag());
-            categoryResponse.setCreateTime(category.getCreateTime());
             categoryResponse.setChilden(queryCategory(category.getCategoryId()));
             categoryResponses.add(categoryResponse);
         }
@@ -58,10 +54,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
             categoryResponse.setCategoryName(category.getCategoryName());
             categoryResponse.setCategoryLevel(category.getCategoryLevel());
             categoryResponse.setParentId(category.getParentId());
-            categoryResponse.setCategoryIcon(category.getCategoryIcon());
-            categoryResponse.setCategorySlogan(category.getCategorySlogan());
-            categoryResponse.setDeleteFlag(category.getDeleteFlag());
-            categoryResponse.setCreateTime(category.getCreateTime());
             categoryResponse.setChilden(queryCategory(category.getCategoryId()));
             categoryResponses.add(categoryResponse);
         }

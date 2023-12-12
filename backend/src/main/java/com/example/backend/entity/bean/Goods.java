@@ -21,7 +21,7 @@ public class Goods {
     private Integer categoryId;
     private Integer rootCategoryId;
     private Integer soldNum;
-    private Integer status;
-    private String context;
-    private Date createTime;
+    private String goodsTrait;
+    private String instructions;
+    private String material;
 }

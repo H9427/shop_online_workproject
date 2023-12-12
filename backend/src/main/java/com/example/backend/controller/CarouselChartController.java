@@ -24,19 +24,6 @@ public class CarouselChartController {
     @Resource
     ObtainChartUtils obtainChartUtils;
 
-    //根据轮播图类型查找轮播图
-    @GetMapping("/getByType")
-    @ResponseBody
-    public void GetChartsByType(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String chartType = obtainChartUtils.getChartType(request);
-        List<CarouselChartResponse> charts = carouselChartService.getChartsByType(chartType);
-        response.setContentType("application/json;charset=utf-8");
-        if(charts != null){
-            response.getWriter().write(RestBean.success(charts,"查找成功").asJsonString());
-        }else {
-            response.getWriter().write(RestBean.unauthorized("查找失败").asJsonString());
-        }
-    }
 
     //随机获取轮播图：传递需要多少张
     @GetMapping("/getByRandom")
