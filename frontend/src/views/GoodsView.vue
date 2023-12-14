@@ -1,5 +1,5 @@
 <template>
-  <goodsNav />
+  <Navbar />
   <div class="custom-div">
     <div class="mt-5">
       <button class="btn btn-sm" @click="drawer = true" style="margin-left: 78%">
@@ -39,12 +39,23 @@
         </template>
       </el-drawer>
 
+      <div>
+        <div v-for="(category, index) in store.categoryData" :key="index">
+          <p>{{ category.categoryName }}</p>
+          <ul>
+            <li v-for="(child, childIndex) in category.children" :key="childIndex">
+              {{ child.categoryName }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="外套" checked />
       <div role="tabpanel" class="tab-content p-10 pl-15 pr-15">
         <el-row>
           <el-col v-for="(o, index) in 4" :key="o" :span="6" class="mb-10">
             <router-link :to="{ name: 'goodsDetail', params: { id: o } }" class="card w-96 bg-base-100 shadow-xl" style="width: 300px">
-              <img src="https://ufm-pic.ur.com.cn/product/UML130023/image/UML130023K0A_1.jpg?x-image-process=image/quality,Q_90" />
+              <img src="https://shop-online-wujiahao17.oss-cn-beijing.aliyuncs.com/avatar/40531edb-083c-40d3-a547-05ebc6baa2d9.jpg" />
               <h2 class="card-title ml-3 mt-1">GoodsName!</h2>
               <p class="ml-3 mb-1">￥1000.00</p>
             </router-link>
@@ -52,77 +63,29 @@
         </el-row>
       </div>
 
-      <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="羽绒" />
-      <div role="tabpanel" class="tab-content p-10">
+      <!-- <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="外套" checked />
+      <div role="tabpanel" class="tab-content p-10 pl-15 pr-15">
         <el-row>
           <el-col v-for="(o, index) in 4" :key="o" :span="6" class="mb-10">
-            <div class="card w-96 bg-base-100 shadow-xl" style="width: 300px">
-              <img src="https://ufm-pic.ur.com.cn/product/MF48S1KN2002/image/MF48S1KN2002B6_1.jpg?x-image-process=image/quality,Q_90" />
+            <router-link :to="{ name: 'goodsDetail', params: { id: o } }" class="card w-96 bg-base-100 shadow-xl" style="width: 300px">
+              <img src="https://shop-online-wujiahao17.oss-cn-beijing.aliyuncs.com/avatar/40531edb-083c-40d3-a547-05ebc6baa2d9.jpg" />
               <h2 class="card-title ml-3 mt-1">GoodsName!</h2>
               <p class="ml-3 mb-1">￥1000.00</p>
-            </div>
+            </router-link>
           </el-col>
         </el-row>
-      </div>
-
-      <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="针织" />
-      <div role="tabpanel" class="tab-content p-10">
-        <el-row>
-          <el-col v-for="(o, index) in 4" :key="o" :span="6" class="mb-10">
-            <div class="card w-96 bg-base-100 shadow-xl" style="width: 300px">
-              <img src="https://ufm-pic.ur.com.cn/product/UMV930020/image/UMV930020B6A_1.jpg?x-image-process=image/quality,Q_90" />
-              <h2 class="card-title ml-3 mt-1">GoodsName!</h2>
-              <p class="ml-3 mb-1">￥1000.00</p>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-
-      <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="裤子" />
-      <div role="tabpanel" class="tab-content p-10">
-        <el-row>
-          <el-col v-for="(o, index) in 4" :key="o" :span="6" class="mb-10">
-            <div class="card w-96 bg-base-100 shadow-xl" style="width: 300px">
-              <img src="https://ufm-pic.ur.com.cn/product/UMF632023/image/UMF632023B6A_1.jpg?x-image-process=image/quality,Q_90" />
-              <h2 class="card-title ml-3 mt-1">GoodsName!</h2>
-              <p class="ml-3 mb-1">￥1000.00</p>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-
-      <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="丹宁" />
-      <div role="tabpanel" class="tab-content p-10">
-        <el-row>
-          <el-col v-for="(o, index) in 4" :key="o" :span="6" class="mb-10">
-            <div class="card w-96 bg-base-100 shadow-xl" style="width: 300px">
-              <img src="https://ufm-pic.ur.com.cn/product/UMF830008/image/UMF830008LDA_1.jpg?x-image-process=image/quality,Q_90" />
-              <h2 class="card-title ml-3 mt-1">GoodsName!</h2>
-              <p class="ml-3 mb-1">￥1000.00</p>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-
-      <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="全部" />
-      <div role="tabpanel" class="tab-content p-10">
-        <el-row>
-          <el-col v-for="(o, index) in 4" :key="o" :span="6" class="mb-10">
-            <div class="card w-96 bg-base-100 shadow-xl" style="width: 300px">
-              <img src="https://ufm-pic.ur.com.cn/product/UMV232017/image/UMV232017W0A_1.jpg?x-image-process=image/quality,Q_90" />
-              <h2 class="card-title ml-3 mt-1">GoodsName!</h2>
-              <p class="ml-3 mb-1">￥1000.00</p>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { Minus, ArrowDown } from "@element-plus/icons-vue";
 import { ref } from "vue";
+import Navbar from "../components/Navbar.vue";
+
+import { useCategoryStore } from "../stores/category";
+const store = useCategoryStore();
 
 const drawer = ref(false);
 const direction = ref("ttb");
@@ -141,6 +104,8 @@ function resetPrice() {
 
 function confirmClick() {
   drawer.value = false;
+  const data = this.$route.query.id;
+  console.log(data);
 }
 </script>
 

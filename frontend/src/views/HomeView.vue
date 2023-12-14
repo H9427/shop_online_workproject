@@ -18,7 +18,7 @@
         <!-- 左边 -->
         <el-col :span="12" class="mb-10" style="padding-left: 15%">
           <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 100%; position: relative; cursor: pointer">
-            <a @click="$router.push('/wClothes')">
+            <a @click="$router.push('/clothes')">
               <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953293454.jpg" class="image" />
               <div class="title">
                 女士精选&nbsp;&nbsp;<el-icon><ArrowRight /></el-icon>
@@ -31,7 +31,7 @@
           <div>
             <!-- 右边-上 -->
             <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width: 70%; position: relative; cursor: pointer">
-              <a @click="$router.push('/mClothes')">
+              <a @click="$router.push('/clothes')">
                 <img src="https://ufm-pic.ur.com.cn/image/tmp/1701953301625.jpg" class="image" />
                 <div class="title">
                   男士精选&nbsp;&nbsp;<el-icon><ArrowRight /></el-icon>
