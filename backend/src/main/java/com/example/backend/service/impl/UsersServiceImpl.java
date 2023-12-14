@@ -28,7 +28,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
             Users users = new Users(null,
                     userRegisterQuery.getUserName(),
                     Pwd,
-                    null,
+                    "游客" + Math.random()* 10,
                     null,
                     "https://hbimg.huabanimg.com/07b029c67010c0a17a1c78fcbc92ce612de4cf3ae8dd-Oc4KXC_fw658",
                     null,
