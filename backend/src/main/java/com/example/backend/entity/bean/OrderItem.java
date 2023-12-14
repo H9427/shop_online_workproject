@@ -19,7 +19,7 @@ public class OrderItem {
     private Integer orderId;
     private Integer goodsId;
     private Integer skuId;
-    private BigDecimal productPrice;
+    private BigDecimal goodsPrice;
     private Integer count;//购买数量
     private Integer isComment;//评论状态
 }

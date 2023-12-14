@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.OrderItemMapper">
+
+    <insert id="addOrderItem" parameterType="com.example.backend.entity.bean.OrderItem" useGeneratedKeys="true" keyProperty="id">
+        insert into orders VALUES (null,#{orderId},#{goodsId},#{skuId},#{goodsPrice},#{count},#{isComment})
+    </insert>
+
+</mapper>
