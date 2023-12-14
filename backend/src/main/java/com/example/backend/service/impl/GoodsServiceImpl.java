@@ -66,4 +66,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
         return categoryClassGoodsResponses;
     }
+
+    @Override
+    public CategoryClassGoodsResponse getGoodsById(Integer goodId) {
+        Goods goods = baseMapper.selectById(goodId);
+        CategoryClassGoodsResponse goodsResponse = new CategoryClassGoodsResponse();
+        goodsResponse.setGoodsId(goods.getGoodsId());
+        goodsResponse.setGoodsName(goods.getGoodsName());
+        goodsResponse.setCategoryId(goods.getCategoryId());
+        goodsResponse.setRootCategoryId(goods.getRootCategoryId());
+        goodsResponse.setSoldNum(goods.getSoldNum());
+        goodsResponse.setGoodsTrait(goods.getGoodsTrait());
+        goodsResponse.setInstructions(goods.getInstructions());
+        goodsResponse.setMaterial(goods.getMaterial());
+        goodsResponse.setGoodsImg(goodsImgService.listGoodsImg(goods.getGoodsId()).get(0));
+        return goodsResponse;
+    }
 }
