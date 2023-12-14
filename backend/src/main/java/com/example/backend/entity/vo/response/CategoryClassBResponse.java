@@ -8,5 +8,5 @@ import java.util.List;
 public class CategoryClassBResponse {
     private Integer categoryId;
     private String categoryName;
-    private List<GoodsResponse> goods;
+    private List<CategoryClassGoodsResponse> goods;
 }
