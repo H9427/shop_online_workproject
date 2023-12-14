@@ -7,6 +7,7 @@ import com.example.backend.entity.bean.Goods;
 import com.example.backend.entity.bean.ShopingCart;
 import com.example.backend.entity.bean.UserAddress;
 import com.example.backend.entity.vo.request.ShopingCartAddRequest;
+import com.example.backend.entity.vo.request.ShopingCartDeleteRequest;
 import com.example.backend.entity.vo.response.ShopingCartResponse;
 import com.example.backend.mapper.ShopingCartMapper;
 import com.example.backend.mapper.UserAddressMapper;
@@ -69,5 +70,11 @@ public class ShopingCartServiceImpl extends ServiceImpl<ShopingCartMapper, Shopi
             shopingCartResponses.add(shopingCartResponse);
         }
         return shopingCartResponses;
+    }
+
+    @Override
+    public boolean deleteShopingCart(ShopingCartDeleteRequest shopingCartDeleteRequest) {
+        int flag = baseMapper.deleteById(shopingCartDeleteRequest.getCartId());
+        return flag == 1;
     }
 }

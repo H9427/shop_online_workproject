@@ -5,6 +5,7 @@ import com.example.backend.entity.RestBean;
 import com.example.backend.entity.bean.UserAddress;
 import com.example.backend.entity.vo.request.AddressAddRequest;
 import com.example.backend.entity.vo.request.ShopingCartAddRequest;
+import com.example.backend.entity.vo.request.ShopingCartDeleteRequest;
 import com.example.backend.entity.vo.response.ShopingCartResponse;
 import com.example.backend.entity.vo.response.UserAddressResponse;
 import com.example.backend.service.ShopingCartService;
@@ -63,6 +64,19 @@ public class ShopingCartController {
             response.getWriter().write(RestBean.success(shopingCartResponses,"查询成功").asJsonString());
         }else {
             response.getWriter().write(RestBean.unauthorized("查询失败").asJsonString());
+        }
+    }
+
+    @DeleteMapping("delete")
+    @ResponseBody
+    public void DeleteShopingCart(ShopingCartDeleteRequest shopingCartDeleteRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        boolean flag = shopingCartService.deleteShopingCart(shopingCartDeleteRequest);
+        response.setContentType("application/json;charset=utf-8");
+        if(flag){
+            response.getWriter().write(RestBean.success("删除成功").asJsonString());
+        }else {
+            response.getWriter().write(RestBean.unauthorized("删除失败").asJsonString());
         }
     }
 
