@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.entity.bean.Category;
 import com.example.backend.entity.bean.Goods;
+import com.example.backend.entity.vo.response.CategoryClassGoodsResponse;
 import com.example.backend.entity.vo.response.GoodsResponse;
 import com.example.backend.mapper.GoodsMapper;
 import com.example.backend.service.GoodsImgService;
@@ -44,14 +45,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public List<GoodsResponse> listGoodsByCategoryId(Integer categoryId) {
+    public List<CategoryClassGoodsResponse> listGoodsByCategoryId(Integer categoryId) {
         LambdaQueryWrapper<Goods> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Goods::getCategoryId, categoryId);
         wrapper.orderByDesc(Goods::getGoodsId);
         List<Goods> goodsList = baseMapper.selectList(wrapper);
-        List<GoodsResponse> goodsResponses = new ArrayList<>();
+        List<CategoryClassGoodsResponse> categoryClassGoodsResponses = new ArrayList<>();
         for (Goods goods:goodsList){
-            GoodsResponse goodsResponse = new GoodsResponse();
+            CategoryClassGoodsResponse goodsResponse = new CategoryClassGoodsResponse();
             goodsResponse.setGoodsId(goods.getGoodsId());
             goodsResponse.setGoodsName(goods.getGoodsName());
             goodsResponse.setCategoryId(goods.getCategoryId());
@@ -60,10 +61,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             goodsResponse.setGoodsTrait(goods.getGoodsTrait());
             goodsResponse.setInstructions(goods.getInstructions());
             goodsResponse.setMaterial(goods.getMaterial());
-            goodsResponse.setGoodsImg(goodsImgService.listGoodsImg(goods.getGoodsId()));
-            goodsResponse.setGoodsSku(goodsSkuService.listGoodsSku(goods.getGoodsId()));
-            goodsResponses.add(goodsResponse);
+            goodsResponse.setGoodsImg(goodsImgService.listGoodsImg(goods.getGoodsId()).get(0));
+            categoryClassGoodsResponses.add(goodsResponse);
         }
-        return goodsResponses;
+        return categoryClassGoodsResponses;
     }
 }
