@@ -2,13 +2,10 @@
   <div class="navbar bg-error-content text-neutral-content">
     <div class="flex-1">
       <a class="btn btn-ghost text-xl" @click="$router.push('/')">daisyShopping</a>
-
+      
       <div class="navbar-center hidden lg:flex" style="margin-left: 33%">
         <ul class="menu menu-horizontal px-1">
-          <li><a @click="$router.push('/wClothes')">Clothes</a></li>
-          <li><a>Shoes</a></li>
-          <li><a>Perfume</a></li>
-          <li><a>HandBag</a></li>
+          <li v-for="(item, index) in Data.data" :key="index"><a @click="returnroute(item.childen)">{{ item.categoryName }}</a></li>
         </ul>
       </div>
     </div>
@@ -52,6 +49,30 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { reactive, ref } from "vue";
+import { get } from "../net";
+import { onMounted } from 'vue';
+import router from "@/router";
+// import { useRouter } from 'vue-router' 
+  
+const Data = reactive({
+  data:""
+})
+
+onMounted(() => {
+  get(
+    "/api/category/queryAllCategory",
+    (data) => {
+      console.log(data);
+      Data.data = data
+    }
+  );
+});
+
+function returnroute(value){  
+  router.push({path:'/wClothes',query:{data:value}})  
+}  
+</script>
 
 <style scoped></style>
