@@ -78,4 +78,13 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
         }
         return false;
     }
+
+    @Override
+    public Integer getDefaultAddress(Integer userId) {
+        UserAddress userAddress = query().eq("user_id", userId).eq("common_address",1).one();
+        if(userAddress == null){
+            return 0;
+        }
+        return userAddress.getAddressId();
+    }
 }

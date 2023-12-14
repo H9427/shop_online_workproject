@@ -1,5 +1,6 @@
 package com.example.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.entity.bean.GoodsSku;
 import com.example.backend.entity.bean.OrderItem;
@@ -35,6 +36,15 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
                 return null;
             }
         }
+        return orderItems;
+    }
+
+    @Override
+    public List<OrderItem> getOrderItemByOrderId(Integer orderId) {
+        LambdaQueryWrapper<OrderItem> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(OrderItem::getOrderId, orderId);
+        wrapper.orderByAsc(OrderItem::getId);
+        List<OrderItem> orderItems = baseMapper.selectList(wrapper);
         return orderItems;
     }
 }
