@@ -1,6 +1,7 @@
 import axios from "axios";
 import {ElMessage} from "element-plus";
 
+// const authItemName = ""
 const authItemName = "authorize"
 
 const accessHeader = () => {
@@ -88,6 +89,7 @@ function post(url, data, success, failure = defaultFailure) {
 function logout(success, failure = defaultFailure){
     get('/api/user/logout', () => {
         deleteAccessToken()
+        console.log('退出登录成功，欢迎您再次使用')
         ElMessage.success(`退出登录成功，欢迎您再次使用`)
         success()
     }, failure)
@@ -101,4 +103,4 @@ function unauthorized() {
     return !takeAccessToken()
 }
 
-export { post, get, login, logout, unauthorized ,internalPost}
+export { post, get, login, logout, unauthorized ,internalPost,takeAccessToken}
