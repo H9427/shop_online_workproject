@@ -26,7 +26,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public List<CategoryClassAResponse> queryAllCategory() {
         LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Category::getCategoryLevel, 0);
-        wrapper.orderByDesc(Category::getCategoryId);
+        wrapper.orderByAsc(Category::getCategoryId);
         List<Category> categories = baseMapper.selectList(wrapper);
         if(categories == null){
             return null;

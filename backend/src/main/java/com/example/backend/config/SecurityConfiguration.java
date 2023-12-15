@@ -43,7 +43,9 @@ public class SecurityConfiguration {
                         "/api/user/register",
                         "/api/user/identity**",
                         "/api/user/resetPwd",
-                        "api/category/queryAllCategory").permitAll()
+                        "api/category/queryAllCategory",
+                        "api/chart/getByRandom"
+                ).permitAll()
                 .anyRequest().authenticated()
         ).formLogin(conf -> conf
                 .loginProcessingUrl("/api/user/login")

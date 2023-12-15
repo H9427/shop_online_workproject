@@ -22,4 +22,6 @@ public interface UserAddressService extends IService<UserAddress> {
 
     //删除地址
     public boolean deleteAddress(Integer userId, AddressDeleteRequest addressDeleteRequest);
+
+    public Integer getDefaultAddress(Integer userId);
 }

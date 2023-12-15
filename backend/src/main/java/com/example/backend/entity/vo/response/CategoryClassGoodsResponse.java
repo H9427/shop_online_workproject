@@ -1,6 +1,7 @@
 package com.example.backend.entity.vo.response;
 
 import com.example.backend.entity.bean.GoodsImg;
+import com.example.backend.entity.bean.GoodsSku;
 import lombok.Data;
 
 
@@ -15,4 +16,5 @@ public class CategoryClassGoodsResponse {
     private String instructions;
     private String material;
     private GoodsImg goodsImg;
+    private GoodsSku goodsSku;
 }

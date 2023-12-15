@@ -22,4 +22,12 @@ public class GoodsSkuServiceImpl extends ServiceImpl<GoodsSkuMapper, GoodsSku> i
         List<GoodsSku> goodsSkus = baseMapper.selectList(wrapper);
         return goodsSkus;
     }
+
+    @Override
+    public GoodsSku getGoodsById(Integer skuId) {
+        GoodsSku goodsSku = baseMapper.selectById(skuId);
+        return goodsSku;
+    }
+
+
 }

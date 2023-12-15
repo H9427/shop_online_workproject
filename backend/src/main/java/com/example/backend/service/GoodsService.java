@@ -12,4 +12,6 @@ public interface GoodsService {
 
     //根据分类查商品
     public List<CategoryClassGoodsResponse> listGoodsByCategoryId(Integer categoryId);
+
+    public CategoryClassGoodsResponse getGoodsById(Integer goodId);
 }
