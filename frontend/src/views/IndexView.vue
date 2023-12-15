@@ -1,13 +1,11 @@
 <template>
-  <div>
     <Navbar />
-    <component :is="currentComponent" />
-    <Footer/>
-  </div>
+    <HomeView />
+    <Footer />
 </template>
 
-<script>
-import HomeView from "./HomeView.vue";
+<!-- <script>
+import HomeView from "../components/HomeView.vue";
 
 export default {
   components: {
@@ -21,4 +19,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped></style> -->
