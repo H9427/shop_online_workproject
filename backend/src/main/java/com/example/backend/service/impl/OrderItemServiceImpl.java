@@ -47,4 +47,12 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
         List<OrderItem> orderItems = baseMapper.selectList(wrapper);
         return orderItems;
     }
+
+    @Override
+    public boolean deleteOrderItemsByOrderId(Integer orderId) {
+        LambdaQueryWrapper<OrderItem> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(OrderItem::getOrderId, orderId);
+        int i = baseMapper.delete(wrapper);
+        return i >= 1;
+    }
 }

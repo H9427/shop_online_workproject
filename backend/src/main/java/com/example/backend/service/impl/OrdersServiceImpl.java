@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.entity.bean.Orders;
 import com.example.backend.entity.bean.ShopingCart;
 import com.example.backend.entity.vo.request.OrderAddRequest;
+import com.example.backend.entity.vo.request.OrdersDeleteRequest;
+import com.example.backend.entity.vo.request.ShopingCartDeleteRequest;
 import com.example.backend.entity.vo.response.OrdersResponse;
 import com.example.backend.mapper.OrdersMapper;
 import com.example.backend.service.OrderItemService;
@@ -63,6 +65,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             ordersResponse.setCancelTime(order.getCancelTime());
             ordersResponse.setItems(orderItemService.addOrderItem(order.getId(),orderAddRequest.getGoods()));
         }catch (Exception e){
+            System.out.println(e);
             return null;
         }
         return ordersResponse;
@@ -93,5 +96,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             ordersResponses.add(ordersResponse);
         }
         return ordersResponses;
+    }
+
+    @Override
+    public boolean deleteOrder(OrdersDeleteRequest ordersDeleteRequest) {
+        int flag = baseMapper.deleteById(ordersDeleteRequest.getOrderId());
+        boolean i = orderItemService.deleteOrderItemsByOrderId(ordersDeleteRequest.getOrderId());
+        return flag == 1&&i;
     }
 }

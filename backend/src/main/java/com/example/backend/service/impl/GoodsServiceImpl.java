@@ -62,6 +62,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             goodsResponse.setInstructions(goods.getInstructions());
             goodsResponse.setMaterial(goods.getMaterial());
             goodsResponse.setGoodsImg(goodsImgService.listGoodsImg(goods.getGoodsId()).get(0));
+            goodsResponse.setGoodsSku(goodsSkuService.listGoodsSku(goods.getGoodsId()).get(0));
             categoryClassGoodsResponses.add(goodsResponse);
         }
         return categoryClassGoodsResponses;

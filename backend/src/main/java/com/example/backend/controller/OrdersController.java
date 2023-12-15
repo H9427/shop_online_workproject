@@ -3,6 +3,8 @@ package com.example.backend.controller;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backend.entity.RestBean;
 import com.example.backend.entity.vo.request.OrderAddRequest;
+import com.example.backend.entity.vo.request.OrdersDeleteRequest;
+import com.example.backend.entity.vo.request.ShopingCartDeleteRequest;
 import com.example.backend.entity.vo.request.UserInformationEditRequest;
 import com.example.backend.entity.vo.response.OrdersResponse;
 import com.example.backend.entity.vo.response.UsersResponse;
@@ -60,6 +62,19 @@ public class OrdersController {
             response.getWriter().write(RestBean.success(ordersResponses,"查询成功").asJsonString());
         }else {
             response.getWriter().write(RestBean.unauthorized("查询失败").asJsonString());
+        }
+    }
+
+    @DeleteMapping("delete")
+    @ResponseBody
+    public void DeleteOrder(OrdersDeleteRequest ordersDeleteRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        boolean flag = ordersService.deleteOrder(ordersDeleteRequest);
+        response.setContentType("application/json;charset=utf-8");
+        if(flag){
+            response.getWriter().write(RestBean.success("删除成功").asJsonString());
+        }else {
+            response.getWriter().write(RestBean.unauthorized("删除失败").asJsonString());
         }
     }
 }

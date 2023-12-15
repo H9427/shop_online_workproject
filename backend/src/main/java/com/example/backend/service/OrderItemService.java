@@ -9,4 +9,6 @@ public interface OrderItemService {
     public List<OrderItem> addOrderItem(Integer orderId, List<OrderAddGoodRequset> orderAddGoodRequset);
 
     public List<OrderItem> getOrderItemByOrderId(Integer orderId);
+
+    public boolean deleteOrderItemsByOrderId(Integer orderId);
 }
