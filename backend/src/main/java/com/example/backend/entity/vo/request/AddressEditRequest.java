@@ -14,5 +14,4 @@ public class AddressEditRequest {
     private String area;//区县
     private String address;//详细地址
     private String postCode;//邮编
-    private Integer commonAddress;//默认地址，1：是  0：否
 }

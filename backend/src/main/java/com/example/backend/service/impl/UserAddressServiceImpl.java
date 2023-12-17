@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.convert.AddressConvert;
 import com.example.backend.entity.bean.UserAddress;
 import com.example.backend.entity.vo.request.AddressAddRequest;
+import com.example.backend.entity.vo.request.AddressCommonRequest;
 import com.example.backend.entity.vo.request.AddressDeleteRequest;
 import com.example.backend.entity.vo.request.AddressEditRequest;
 import com.example.backend.entity.vo.response.UserAddressResponse;
@@ -51,9 +52,6 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
 
     @Override
     public UserAddressResponse editAddress(Integer userId, AddressEditRequest addressEditRequest) {
-        if(addressEditRequest.getCommonAddress() == 1&&query().eq("user_id",userId).eq("common_address",1).one() != null){
-            return null;
-        }
         UserAddress userAddress = query().eq("address_id", addressEditRequest.getAddressId()).one();
         userAddress.setReceiverName(addressEditRequest.getReceiverName());
         userAddress.setReceiverMobile(addressEditRequest.getReceiverMobile());
@@ -62,7 +60,6 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
         userAddress.setArea(addressEditRequest.getArea());
         userAddress.setAddress(addressEditRequest.getAddress());
         userAddress.setPostCode(addressEditRequest.getPostCode());
-        userAddress.setCommonAddress(addressEditRequest.getCommonAddress());
         baseMapper.updateById(userAddress);
         UserAddressResponse results = AddressConvert.convertToAddressResponse(userAddress);
         return results;
@@ -86,5 +83,21 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
             return 0;
         }
         return userAddress.getAddressId();
+    }
+
+    @Override
+    public Boolean commonAddress(Integer userId, AddressCommonRequest addressCommonRequest) {
+        try{
+            UserAddress userAddress = query().eq("user_id", userId).eq("common_address", 1).one();
+            userAddress.setCommonAddress(0);
+            baseMapper.updateById(userAddress);
+            UserAddress userAddress1 = query().eq("user_id", userId).eq("address_id", addressCommonRequest.getAddressId()).one();
+            userAddress1.setCommonAddress(1);
+            baseMapper.updateById(userAddress1);
+        } catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
     }
 }
