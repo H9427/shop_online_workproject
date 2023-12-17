@@ -49,11 +49,12 @@ public class PersonalCenterServiceImpl extends ServiceImpl<UsersMapper, Users> i
     @Override
     public UsersResponse modifyInformation(Integer userId, UserInformationEditRequest user) {
         Users user1 = query().eq("id",userId).one();
-        String Pwd = new BCryptPasswordEncoder().encode(user.getUserPwd());
-        user1.setUserPwd(Pwd);
+        if(user.getUserPwd() != "") {
+            String Pwd = new BCryptPasswordEncoder().encode(user.getUserPwd());
+            user1.setUserPwd(Pwd);
+        }
         user1.setNickName(user.getNickName());
         user1.setRealName(user.getRealName());
-        user1.setUserImg(user.getUserImg());
         user1.setUserMobile(user.getUserMobile());
         user1.setUserSex(user.getUserSex());
         baseMapper.updateById(user1);
