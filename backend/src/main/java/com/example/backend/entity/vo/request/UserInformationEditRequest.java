@@ -9,7 +9,6 @@ public class UserInformationEditRequest {
     private String userPwd;
     private String nickName;
     private String realName;
-    private String userImg;
     private String userMobile;
     private String userSex;
 }

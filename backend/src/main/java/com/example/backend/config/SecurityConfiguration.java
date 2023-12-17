@@ -44,7 +44,8 @@ public class SecurityConfiguration {
                         "/api/user/identity**",
                         "/api/user/resetPwd",
                         "api/category/queryAllCategory",
-                        "api/chart/getByRandom"
+                        "api/chart/getByRandom",
+                        "/api/goods/details"
                 ).permitAll()
                 .anyRequest().authenticated()
         ).formLogin(conf -> conf

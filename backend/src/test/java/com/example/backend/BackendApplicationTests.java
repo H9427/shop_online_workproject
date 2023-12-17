@@ -9,8 +9,8 @@ class BackendApplicationTests {
 
     @Test
     void contextLoads() {
-        //生成密码
-        System.out.println(new BCryptPasswordEncoder().encode("wu8321966"));
+
+
     }
 
 }

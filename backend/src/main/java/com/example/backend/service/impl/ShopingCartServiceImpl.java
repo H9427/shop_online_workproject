@@ -47,6 +47,7 @@ public class ShopingCartServiceImpl extends ServiceImpl<ShopingCartMapper, Shopi
             System.out.println(e);
             return false;
         }
+        System.out.println("成功");
         return true;
     }
 
