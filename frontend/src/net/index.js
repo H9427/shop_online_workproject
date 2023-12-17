@@ -77,7 +77,7 @@ function login(username, password, remember, success, failure = defaultFailure){
     }, (data) => {
         storeAccessToken(remember, data.token, data.expire)
         ElMessage.success(`登录成功，欢迎 ${data.userName} 来到我们的系统`)
-        console.log(data);
+        // console.log(data);
         success(data)
     }, failure)
 }
@@ -103,4 +103,4 @@ function unauthorized() {
     return !takeAccessToken()
 }
 
-export { post, get, login, logout, unauthorized ,internalPost,takeAccessToken}
+export { post, get, login, logout, unauthorized ,internalPost,takeAccessToken,accessHeader}
