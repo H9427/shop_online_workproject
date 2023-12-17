@@ -21,14 +21,12 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     public boolean registerUser(UserRegisterRequest userRegisterQuery) {
-        System.out.println(userRegisterQuery.getUserName());
-        System.out.println(userRegisterQuery.getUserPwd());
         if((query().eq("user_name",userRegisterQuery.getUserName()).one()) == null){
             String Pwd = new BCryptPasswordEncoder().encode(userRegisterQuery.getUserPwd());
             Users users = new Users(null,
                     userRegisterQuery.getUserName(),
                     Pwd,
-                    "游客" + Math.random()* 10,
+                    "游客" + Math.random()* 10000,
                     null,
                     "https://hbimg.huabanimg.com/07b029c67010c0a17a1c78fcbc92ce612de4cf3ae8dd-Oc4KXC_fw658",
                     null,
