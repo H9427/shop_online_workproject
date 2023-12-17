@@ -57,7 +57,7 @@
       <el-row class="mt-5">
         <el-col v-for="(item, index) in store.categoryData.data[store.categoryData.check].goods" :key="index" :span="6" class="mb-10">
           <!-- <div :to="{ name: 'goodsDetail', params: { id: item.goodsId } }" class="card w-96 bg-base-100 shadow-xl" style="width: 300px"> -->
-          <div @click="goDetail()" class="card w-96 bg-base-100 shadow-xl" style="width: 300px;cursor: pointer;">
+          <div @click="goDetail(item.goodsId)" class="card w-96 bg-base-100 shadow-xl" style="width: 300px;cursor: pointer;">
             <img :src="item.goodsImg.imgUrl" />
 
             <h2 class="card-title ml-3 mt-1">{{ item.goodsName }}</h2>
@@ -99,8 +99,8 @@ const Data = reactive({
   check: "",
 });
 
-function goDetail() {
-  router.push("/goodsDetail");
+function goDetail(id) {
+  router.push({path:"/goodsDetail",query:{id:id}});
 }
 
 function click_tabar(index) {

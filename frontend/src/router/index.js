@@ -40,6 +40,16 @@ const router = createRouter({
       name: "goods",
       component: () => import("@/views/GoodsView.vue"),
     },
+    {
+      path: "/shoppingCart",
+      name: "shoppingCart",
+      component: () => import("@/views/ShoppingCartView.vue"),
+    },
+    {
+      path: "/info",
+      name: "info",
+      component: () => import("@/views/InfoView.vue"),
+    },
   ],
 });
 

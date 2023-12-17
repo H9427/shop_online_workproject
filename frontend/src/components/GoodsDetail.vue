@@ -4,15 +4,25 @@
       <!-- 左边 -->
       <el-col :span="12" class="mb-10" style="padding-left: 10%; padding-top: 2%">
         <el-card :body-style="{ padding: '0px' }">
-          <a>
-            <img src="https://shop-online-wujiahao17.oss-cn-beijing.aliyuncs.com/avatar/40531edb-083c-40d3-a547-05ebc6baa2d9.jpg" />
-          </a>
+          <!-- <div style="height: 100%;width: 100%;display: flex;"> -->
+          <div style="height: 500px;width: 470px;display: flex;">
+            <div class="left" style="background-color: blue;">
+              <a>
+                <img :src="img"/>
+              </a>
+            </div>
+            <div class="right" style="background-color: red;overflow: auto;-webkit-scrollbar-display: none;">
+              <img v-for="(item,index) in Data.goodsImg" :key="index" :src="item.imgUrl" @click="img=item.imgUrl"/>
+            </div>
+          </div>
+          
         </el-card>
       </el-col>
+      
       <!-- 右边 -->
       <el-col :span="12" class="mb-10" style="padding-top: 2%; padding-left: 10%">
-        <div style="font-size: 20px">女装花朵图案棉服</div>
-        <div style="font-size: 17px" class="mt-2">￥ 299.00</div>
+        <div style="font-size: 20px">{{Data.data.goodsName}}</div>
+        <div style="font-size: 17px" class="mt-2">￥ {{ Data.value }}</div>
         <div class="mt-1">
           <div class="badge badge-ghost"><p style="color: gray">满199包邮</p></div>
         </div>
@@ -86,16 +96,12 @@
           </dialog>
         </div>
         <div class="flex-container">
-          <button :class="num == 1 ? sizeOn : sizeOff" @click="num = 1">&nbsp;XS(160/80A)</button>
-          <button :class="num == 2 ? sizeOn : sizeOff" @click="num = 2">&nbsp;S(165/84A)</button>
-          <button :class="num == 3 ? sizeOn : sizeOff" @click="num = 3">&nbsp;M(170/88A)</button>
-          <button :class="num == 4 ? sizeOn : sizeOff" @click="num = 4">&nbsp;L(170/92A)</button>
-          <button :class="num == 5 ? sizeOn : sizeOff" @click="num = 5">&nbsp;XL(175/96A)</button>
+          <button v-for="(item,index) in Data.goodsSku" :class="index == num ? sizeOn : sizeOff" @click="num = index">&nbsp;{{item.skuName}}</button>
         </div>
 
         <div style="padding-top: 30px">数量</div>
         <div style="padding-top: 10px"><el-input-number v-model="count" :min="1" :max="999" @change="handleChange" /></div>
-        <div style="padding-top: 30px"><button class="btn btn-wide" style="width: 80%">加入购物车</button></div>
+        <div style="padding-top: 30px"><button class="btn btn-wide" style="width: 80%" @click="AddShoppingCart()">加入购物车</button></div>
         <!-- <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
           <div class="space-x-2 flex text-sm">
             <label>
@@ -113,7 +119,7 @@
         <div class="demo-collapse mt-5" style="width: 80%">
           <el-collapse v-model="activeNames" @change="handleChange1">
             <el-collapse-item title="面料保养" name="1">
-              <div style="font-size: 95%; color: gray">针织： 面层：100%聚酯纤维 底层：100%聚酯纤维 梭织：100%棉 （含微量其他纤维）; (温馨提示：产品分批次生产，按成分实测值标识产品信息，成分差异在标准允许范围内，货品随机发货) 建议深浅颜色分开洗涤，洗涤温度不高于30度，常规程序，不可漂白，通风处自然晾干，不宜长时间浸泡以及暴晒，烫斗底板温度不高于110度。</div>
+              <div style="font-size: 95%; color: gray">{{Data.data.material}}; (温馨提示：{{ Data.data.instructions }})</div>            
             </el-collapse-item>
             <el-collapse-item title="价格说明" name="2">
               <div style="font-size: 95%; color: gray">•划线价格</div>
@@ -129,23 +135,82 @@
     </el-row>
   </div>
   <Footer class="mt-10" />
+
+  <p>{{ $route.query.id }}</p>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { get,post,internalPost,takeAccessToken } from "../net";
+import { ref,reactive } from "vue";
+import { onMounted } from 'vue';
+import router from "@/router";
+import { useRoute } from 'vue-router';  
+  
+const route = useRoute();  
+
 const sizeOn = ref("button-on");
 const sizeOff = ref("button-off");
 const num = ref(0);
+const counte = ref(1);
+const img = ref("");
+const Data = reactive({
+  data: "",
+  goodsSku: "",
+  goodsImg: "",
+  value:"",
+});
+
+
+
+
+onMounted(() => {
+  // 在挂载完成后调用
+  get("/api/goods/details?goodsId=" + route.query.id, (data) => {
+    console.log(data)
+    Data.data = data;
+    Data.goodsSku = data.goodsSku;
+    Data.goodsImg = data.goodsImg;
+    img.value = data.goodsImg[0].imgUrl;
+    Data.value = data.goodsSku[0].originalPrice;
+  });
+});
 
 const count = ref(1);
 const handleChange = (value: number) => {
-  console.log(value);
+  counte.value = value;
 };
 
-const activeNames = ref(["1"]);
-const handleChange1 = (val: string[]) => {
-  console.log(val);
-};
+// const activeNames = ref(["1"]);
+// const handleChange1 = (val: string[]) => {
+//   console.log(val);
+// };
+
+function AddShoppingCart() {
+  internalPost('/api/shopingCart/addShopingCart',
+  {
+    goodsId: route.query.id,
+    skuId: Data.goodsSku[num.value].skuId,
+    cartNum: counte.value,
+    goodsPrice: Data.goodsSku[num.value].originalPrice
+  },
+  {
+    "Content-Type": "application/x-www-form-urlencoded",
+    'Authorization':  `Bearer ${takeAccessToken()}`
+  },
+  (data) => {
+    //添加购物车成功
+    console.log(data);
+  },
+  (message, code, url) => {
+    //添加购物车失败
+    console.log(message);
+    console.log(code);
+    console.log(url);
+  }
+  );
+}
+
+
 </script>
 
 <style scoped>
@@ -181,5 +246,21 @@ const handleChange1 = (val: string[]) => {
 
 .underline-on-hover:hover {
   text-decoration: underline;
+}
+
+.left{
+  height: 100%;
+  width: 80%;
+}
+
+
+.right{
+  display: block;
+  height: 100%;
+  width: 20%;
+}
+
+.right:hover{
+  cursor: pointer;
 }
 </style>
