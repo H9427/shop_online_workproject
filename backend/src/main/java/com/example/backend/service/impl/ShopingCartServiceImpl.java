@@ -8,6 +8,7 @@ import com.example.backend.entity.bean.ShopingCart;
 import com.example.backend.entity.bean.UserAddress;
 import com.example.backend.entity.vo.request.ShopingCartAddRequest;
 import com.example.backend.entity.vo.request.ShopingCartDeleteRequest;
+import com.example.backend.entity.vo.response.AllItemsAndPricesResponse;
 import com.example.backend.entity.vo.response.ShopingCartResponse;
 import com.example.backend.mapper.ShopingCartMapper;
 import com.example.backend.mapper.UserAddressMapper;
@@ -18,6 +19,7 @@ import com.example.backend.service.UserAddressService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,5 +79,27 @@ public class ShopingCartServiceImpl extends ServiceImpl<ShopingCartMapper, Shopi
     public boolean deleteShopingCart(ShopingCartDeleteRequest shopingCartDeleteRequest) {
         int flag = baseMapper.deleteById(shopingCartDeleteRequest.getCartId());
         return flag == 1;
+    }
+
+    @Override
+    public AllItemsAndPricesResponse allItemsAndPrices(Integer userId) {
+        AllItemsAndPricesResponse allItemsAndPricesResponse = new AllItemsAndPricesResponse();
+        try {
+            LambdaQueryWrapper<ShopingCart> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(ShopingCart::getUserId, userId);
+            List<ShopingCart> shopingCarts = baseMapper.selectList(wrapper);
+            Integer count = 0;
+            BigDecimal prices = BigDecimal.valueOf(0.0);
+            for (ShopingCart shopingCart:shopingCarts){
+                count+= 1;
+                prices = prices.add(shopingCart.getGoodsPrice().multiply(BigDecimal.valueOf(shopingCart.getCartNum())));
+            }
+            allItemsAndPricesResponse.setItemsCount(count);
+            allItemsAndPricesResponse.setPrices(prices);
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+        return allItemsAndPricesResponse;
     }
 }
