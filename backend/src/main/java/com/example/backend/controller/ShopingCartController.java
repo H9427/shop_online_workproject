@@ -70,8 +70,7 @@ public class ShopingCartController {
 
     @PostMapping("/delete")
     @ResponseBody
-    public void DeleteShopingCart(ShopingCartDeleteRequest shopingCartDeleteRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    public void DeleteShopingCart(@RequestBody ShopingCartDeleteRequest shopingCartDeleteRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean flag = shopingCartService.deleteShopingCart(shopingCartDeleteRequest);
         response.setContentType("application/json;charset=utf-8");
         if(flag){

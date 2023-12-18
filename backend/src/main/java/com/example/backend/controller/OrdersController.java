@@ -2,10 +2,7 @@ package com.example.backend.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backend.entity.RestBean;
-import com.example.backend.entity.vo.request.OrderAddRequest;
-import com.example.backend.entity.vo.request.OrdersDeleteRequest;
-import com.example.backend.entity.vo.request.ShopingCartDeleteRequest;
-import com.example.backend.entity.vo.request.UserInformationEditRequest;
+import com.example.backend.entity.vo.request.*;
 import com.example.backend.entity.vo.response.OrdersResponse;
 import com.example.backend.entity.vo.response.UsersResponse;
 import com.example.backend.service.OrdersService;
@@ -76,6 +73,19 @@ public class OrdersController {
             response.getWriter().write(RestBean.success("删除成功").asJsonString());
         }else {
             response.getWriter().write(RestBean.unauthorized("删除失败").asJsonString());
+        }
+    }
+
+    @PostMapping("/editState")
+    @ResponseBody
+    public void EditState(OrdersEditStateRequest ordersEditStateRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        boolean flag = ordersService.editState(ordersEditStateRequest);
+        response.setContentType("application/json;charset=utf-8");
+        if(flag){
+            response.getWriter().write(RestBean.success("订单状态修改成功").asJsonString());
+        }else {
+            response.getWriter().write(RestBean.unauthorized("订单状态修改失败").asJsonString());
         }
     }
 }

@@ -6,6 +6,7 @@ import com.example.backend.entity.bean.Orders;
 import com.example.backend.entity.bean.ShopingCart;
 import com.example.backend.entity.vo.request.OrderAddRequest;
 import com.example.backend.entity.vo.request.OrdersDeleteRequest;
+import com.example.backend.entity.vo.request.OrdersEditStateRequest;
 import com.example.backend.entity.vo.request.ShopingCartDeleteRequest;
 import com.example.backend.entity.vo.response.OrdersResponse;
 import com.example.backend.mapper.OrdersMapper;
@@ -43,7 +44,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                     defaultAddress,
                     orderAddRequest.getTotalAmount(),
                     orderAddRequest.getOrderRemark(),
-                    1,
+                    0,
                     (int)(Math.random() * 10000000 + 10000000),
                     new Date(),
                     null,
@@ -103,5 +104,23 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         int flag = baseMapper.deleteById(ordersDeleteRequest.getOrderId());
         boolean i = orderItemService.deleteOrderItemsByOrderId(ordersDeleteRequest.getOrderId());
         return flag == 1&&i;
+    }
+
+    @Override
+    public boolean editState(OrdersEditStateRequest ordersEditStateRequest) {
+        try{
+            Orders order = query().eq("id", ordersEditStateRequest.getOrderId()).one();
+            order.setStatus(ordersEditStateRequest.getState());
+            switch (ordersEditStateRequest.getState()){
+                case 2:order.setPayTime(new Date());break;
+                case 3:order.setDeliveryTime(new Date());break;
+                case 4:order.setFlishTime(new Date());break;
+            }
+            baseMapper.updateById(order);
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
     }
 }

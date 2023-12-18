@@ -3,8 +3,10 @@ package com.example.backend.entity.vo.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 public class ShopingCartDeleteRequest {
-    private Integer cartId;
+    private List<Integer> cartIds;
 }

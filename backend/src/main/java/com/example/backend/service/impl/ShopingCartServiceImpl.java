@@ -77,8 +77,12 @@ public class ShopingCartServiceImpl extends ServiceImpl<ShopingCartMapper, Shopi
 
     @Override
     public boolean deleteShopingCart(ShopingCartDeleteRequest shopingCartDeleteRequest) {
-        int flag = baseMapper.deleteById(shopingCartDeleteRequest.getCartId());
-        return flag == 1;
+        List<Integer> cartIds = shopingCartDeleteRequest.getCartIds();
+        for (Integer cartId:cartIds){
+            baseMapper.deleteById(cartId);
+        }
+
+        return true;
     }
 
     @Override

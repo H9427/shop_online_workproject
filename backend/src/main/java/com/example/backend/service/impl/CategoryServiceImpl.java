@@ -33,11 +33,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         }
         List<CategoryClassAResponse> categoryClassAResponses = new ArrayList<>();
         for (Category category : categories){
+
             CategoryClassAResponse categoryResponse = new CategoryClassAResponse();
+
             categoryResponse.setCategoryId(category.getCategoryId());
+
             categoryResponse.setCategoryName(category.getCategoryName());
+
             categoryResponse.setChilden(queryCategory(category.getCategoryId()));
+
             categoryClassAResponses.add(categoryResponse);
+
         }
         return categoryClassAResponses;
     }
