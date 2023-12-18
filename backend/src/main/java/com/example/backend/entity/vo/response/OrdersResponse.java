@@ -25,5 +25,5 @@ public class OrdersResponse {
     private Date createTime;//创建时间
     private Date payTime;//付款时间
     private Date flishTime;//完成时间
-    private List<OrderItem> items;
+    private List<OrderItemResponse> items;
 }

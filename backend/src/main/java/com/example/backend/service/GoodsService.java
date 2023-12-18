@@ -14,4 +14,6 @@ public interface GoodsService {
     public List<CategoryClassGoodsResponse> listGoodsByCategoryId(Integer categoryId);
 
     public CategoryClassGoodsResponse getGoodsById(Integer goodId);
+
+    public void addSoldNum(Integer goodsId,Integer count);
 }

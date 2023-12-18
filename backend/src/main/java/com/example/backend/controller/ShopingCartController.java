@@ -39,8 +39,6 @@ public class ShopingCartController {
         DecodedJWT jwt = jwtUtils.resolveJwt(authorization);
         Integer userId = jwtUtils.toId(jwt);
 
-        System.out.println(userId);
-
         boolean flag = shopingCartService.addShopingCart(userId, shopingCartAddRequest);
         response.setContentType("application/json;charset=utf-8");
         if(flag){

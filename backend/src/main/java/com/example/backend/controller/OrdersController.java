@@ -7,6 +7,7 @@ import com.example.backend.entity.vo.response.OrdersResponse;
 import com.example.backend.entity.vo.response.UsersResponse;
 import com.example.backend.service.OrdersService;
 import com.example.backend.utils.JWTUtils;
+import com.example.backend.utils.ObtainOrdersUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,10 +29,12 @@ public class OrdersController {
     @Resource
     OrdersService ordersService;
 
+    @Resource
+    ObtainOrdersUtils obtainOrdersUtils;
+
     @PostMapping("/addOrder")
     @ResponseBody
     public void AddOrder(@RequestBody OrderAddRequest orderAddRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(orderAddRequest);
         //获取token，并通过token获取用户id
         String authorization = request.getHeader("Authorization");
         DecodedJWT jwt = jwtUtils.resolveJwt(authorization);
@@ -89,11 +92,13 @@ public class OrdersController {
         }
     }
 
-    @PostMapping("/details")
+    @GetMapping("/details")
     @ResponseBody
-    public void OrderDetails(OrderDetailsRequest orderDetailsRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void OrderDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Integer orderId = obtainOrdersUtils.getOrderId(request);
 
-        OrdersResponse ordersResponse = ordersService.orderDetails(orderDetailsRequest);
+
+        OrdersResponse ordersResponse = ordersService.orderDetails(orderId);
         response.setContentType("application/json;charset=utf-8");
         if(ordersResponse != null){
             response.getWriter().write(RestBean.success(ordersResponse,"查找成功").asJsonString());

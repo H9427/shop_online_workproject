@@ -2,14 +2,17 @@ package com.example.backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.backend.entity.bean.OrderItem;
 import com.example.backend.entity.bean.Orders;
 import com.example.backend.entity.bean.ShopingCart;
 import com.example.backend.entity.vo.request.*;
 import com.example.backend.entity.vo.response.OrdersResponse;
 import com.example.backend.mapper.OrdersMapper;
+import com.example.backend.service.GoodsService;
 import com.example.backend.service.OrderItemService;
 import com.example.backend.service.OrdersService;
 import com.example.backend.service.UserAddressService;
+import io.lettuce.core.ScriptOutputType;
 import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     @Resource
     UserAddressService userAddressService;
 
+
+
     @Override
     public OrdersResponse addOrder(Integer userId,OrderAddRequest orderAddRequest) {
         Integer defaultAddress = userAddressService.getDefaultAddress(userId);
@@ -47,7 +52,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                     null,
                     null);
             ordersMapper.addOrders(order);
-            System.out.println(1);
             ordersResponse.setId(order.getId());
             ordersResponse.setUserId(order.getUserId());
             ordersResponse.setAddressId(order.getAddressId());
@@ -58,7 +62,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             ordersResponse.setCreateTime(order.getCreateTime());
             ordersResponse.setPayTime(order.getPayTime());
             ordersResponse.setFlishTime(order.getFlishTime());
-            System.out.println(1);
             ordersResponse.setItems(orderItemService.addOrderItem(order.getId(),orderAddRequest.getGoods()));
         }catch (Exception e){
             System.out.println(e);
@@ -104,6 +107,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         try{
             Orders order = query().eq("id", ordersEditStateRequest.getOrderId()).one();
             order.setStatus(ordersEditStateRequest.getState());
+            if(ordersEditStateRequest.getState() == 2){
+                orderItemService.addOrderItemSoldNum(ordersEditStateRequest.getOrderId());
+            }
             switch (ordersEditStateRequest.getState()){
                 case 2:order.setPayTime(new Date());break;
                 case 4:order.setFlishTime(new Date());break;
@@ -117,10 +123,10 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     }
 
     @Override
-    public OrdersResponse orderDetails(OrderDetailsRequest orderDetailsRequest) {
+    public OrdersResponse orderDetails(Integer orderId) {
         OrdersResponse ordersResponse = new OrdersResponse();
         try{
-            Orders order = query().eq("id",orderDetailsRequest.getOrderId()).one();
+            Orders order = query().eq("id",orderId).one();
             ordersResponse.setId(order.getId());
             ordersResponse.setUserId(order.getUserId());
             ordersResponse.setAddressId(order.getAddressId());

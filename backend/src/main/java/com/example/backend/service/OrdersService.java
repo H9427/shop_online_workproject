@@ -17,5 +17,5 @@ public interface OrdersService {
 
     public boolean editState(OrdersEditStateRequest ordersEditStateRequest);
 
-    public OrdersResponse orderDetails(OrderDetailsRequest orderDetailsRequest);
+    public OrdersResponse orderDetails(Integer orderId);
 }

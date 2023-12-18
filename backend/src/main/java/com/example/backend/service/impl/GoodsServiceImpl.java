@@ -83,4 +83,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goodsResponse.setGoodsImg(goodsImgService.listGoodsImg(goods.getGoodsId()).get(0));
         return goodsResponse;
     }
+
+    @Override
+    public void addSoldNum(Integer goodsId, Integer count) {
+        Goods goods = query().eq("goods_id", goodsId).one();
+        goods.setSoldNum(goods.getSoldNum() + count);
+        baseMapper.updateById(goods);
+    }
 }

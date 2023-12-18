@@ -36,20 +36,27 @@ public class ShopingCartServiceImpl extends ServiceImpl<ShopingCartMapper, Shopi
     @Override
     public boolean addShopingCart(Integer userId,ShopingCartAddRequest shopingCartAddRequest) {
         try{
-            ShopingCart shopingCart = new ShopingCart();
-            shopingCart.setGoodsId(shopingCartAddRequest.getGoodsId());
-            shopingCart.setSkuId(shopingCartAddRequest.getSkuId());
-            shopingCart.setUserId(userId);
-            shopingCart.setCartNum(shopingCartAddRequest.getCartNum());
-            shopingCart.setGoodsPrice(shopingCartAddRequest.getGoodsPrice());
-            shopingCart.setCartTime(new Date());
-            System.out.println(shopingCart);
-            baseMapper.insert(shopingCart);
+            ShopingCart shopingCart1 = query().eq("goods_id", shopingCartAddRequest.getGoodsId()).
+                    eq("sku_id", shopingCartAddRequest.getSkuId()).
+                    eq("user_id", userId).one();
+
+            if(shopingCart1 == null){
+                ShopingCart shopingCart = new ShopingCart();
+                shopingCart.setGoodsId(shopingCartAddRequest.getGoodsId());
+                shopingCart.setSkuId(shopingCartAddRequest.getSkuId());
+                shopingCart.setUserId(userId);
+                shopingCart.setCartNum(shopingCartAddRequest.getCartNum());
+                shopingCart.setGoodsPrice(shopingCartAddRequest.getGoodsPrice());
+                shopingCart.setCartTime(new Date());
+                baseMapper.insert(shopingCart);
+            }else {
+                shopingCart1.setCartNum(shopingCart1.getCartNum() + shopingCartAddRequest.getCartNum());
+                baseMapper.updateById(shopingCart1);
+            }
         }catch (Exception e){
             System.out.println(e);
             return false;
         }
-        System.out.println("成功");
         return true;
     }
 
