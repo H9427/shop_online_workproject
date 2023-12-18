@@ -6,7 +6,7 @@
 
     <insert id="addOrders" parameterType="com.example.backend.entity.bean.Orders" useGeneratedKeys="true" keyProperty="id">
         insert into orders VALUES (null,#{userId},#{addressId},#{totalAmount},#{orderRemark}
-        ,#{status},#{deliveryFlowId},#{createTime},#{payTime},#{deliveryTime},#{flishTime},#{cancelTime})
+        ,#{status},#{deliveryFlowId},#{createTime},#{payTime},#{flishTime})
     </insert>
 
 </mapper>

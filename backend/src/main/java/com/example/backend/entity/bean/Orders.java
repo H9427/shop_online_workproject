@@ -26,7 +26,5 @@ public class Orders {
     private Integer deliveryFlowId;//物流单号
     private Date createTime;//创建时间
     private Date payTime;//付款时间
-    private Date deliveryTime;//发货时间
     private Date flishTime;//完成时间
-    private Date cancelTime;//取消时间
 }

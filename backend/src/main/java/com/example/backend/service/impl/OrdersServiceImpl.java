@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.entity.bean.Orders;
 import com.example.backend.entity.bean.ShopingCart;
-import com.example.backend.entity.vo.request.OrderAddRequest;
-import com.example.backend.entity.vo.request.OrdersDeleteRequest;
-import com.example.backend.entity.vo.request.OrdersEditStateRequest;
-import com.example.backend.entity.vo.request.ShopingCartDeleteRequest;
+import com.example.backend.entity.vo.request.*;
 import com.example.backend.entity.vo.response.OrdersResponse;
 import com.example.backend.mapper.OrdersMapper;
 import com.example.backend.service.OrderItemService;
@@ -44,14 +41,13 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                     defaultAddress,
                     orderAddRequest.getTotalAmount(),
                     orderAddRequest.getOrderRemark(),
-                    0,
+                    1,
                     (int)(Math.random() * 10000000 + 10000000),
                     new Date(),
                     null,
-                    null,
-                    null,
                     null);
             ordersMapper.addOrders(order);
+            System.out.println(1);
             ordersResponse.setId(order.getId());
             ordersResponse.setUserId(order.getUserId());
             ordersResponse.setAddressId(order.getAddressId());
@@ -61,9 +57,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             ordersResponse.setDeliveryFlowId(order.getDeliveryFlowId());
             ordersResponse.setCreateTime(order.getCreateTime());
             ordersResponse.setPayTime(order.getPayTime());
-            ordersResponse.setDeliveryTime(order.getDeliveryTime());
             ordersResponse.setFlishTime(order.getFlishTime());
-            ordersResponse.setCancelTime(order.getCancelTime());
+            System.out.println(1);
             ordersResponse.setItems(orderItemService.addOrderItem(order.getId(),orderAddRequest.getGoods()));
         }catch (Exception e){
             System.out.println(e);
@@ -90,9 +85,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             ordersResponse.setDeliveryFlowId(order.getDeliveryFlowId());
             ordersResponse.setCreateTime(order.getCreateTime());
             ordersResponse.setPayTime(order.getPayTime());
-            ordersResponse.setDeliveryTime(order.getDeliveryTime());
             ordersResponse.setFlishTime(order.getFlishTime());
-            ordersResponse.setCancelTime(order.getCancelTime());
             ordersResponse.setItems(orderItemService.getOrderItemByOrderId(order.getId()));
             ordersResponses.add(ordersResponse);
         }
@@ -113,7 +106,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             order.setStatus(ordersEditStateRequest.getState());
             switch (ordersEditStateRequest.getState()){
                 case 2:order.setPayTime(new Date());break;
-                case 3:order.setDeliveryTime(new Date());break;
                 case 4:order.setFlishTime(new Date());break;
             }
             baseMapper.updateById(order);
@@ -122,5 +114,29 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             return false;
         }
         return true;
+    }
+
+    @Override
+    public OrdersResponse orderDetails(OrderDetailsRequest orderDetailsRequest) {
+        OrdersResponse ordersResponse = new OrdersResponse();
+        try{
+            Orders order = query().eq("id",orderDetailsRequest.getOrderId()).one();
+            ordersResponse.setId(order.getId());
+            ordersResponse.setUserId(order.getUserId());
+            ordersResponse.setAddressId(order.getAddressId());
+            ordersResponse.setTotalAmount(order.getTotalAmount());
+            ordersResponse.setOrderRemark(order.getOrderRemark());
+            ordersResponse.setStatus(order.getStatus());
+            ordersResponse.setDeliveryFlowId(order.getDeliveryFlowId());
+            ordersResponse.setCreateTime(order.getCreateTime());
+            ordersResponse.setPayTime(order.getPayTime());
+            ordersResponse.setFlishTime(order.getFlishTime());
+            ordersResponse.setItems(orderItemService.getOrderItemByOrderId(order.getId()));
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+
+        return ordersResponse;
     }
 }

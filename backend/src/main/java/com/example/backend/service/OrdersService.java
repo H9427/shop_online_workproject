@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.vo.request.OrderAddRequest;
+import com.example.backend.entity.vo.request.OrderDetailsRequest;
 import com.example.backend.entity.vo.request.OrdersDeleteRequest;
 import com.example.backend.entity.vo.request.OrdersEditStateRequest;
 import com.example.backend.entity.vo.response.OrdersResponse;
@@ -15,4 +16,6 @@ public interface OrdersService {
     public boolean deleteOrder(OrdersDeleteRequest ordersDeleteRequest);
 
     public boolean editState(OrdersEditStateRequest ordersEditStateRequest);
+
+    public OrdersResponse orderDetails(OrderDetailsRequest orderDetailsRequest);
 }

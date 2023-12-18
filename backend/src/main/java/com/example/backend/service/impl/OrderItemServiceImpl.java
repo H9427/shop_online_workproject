@@ -22,19 +22,21 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     @Override
     public List<OrderItem> addOrderItem(Integer orderId, List<OrderAddGoodRequset> orderAddGoodRequsets) {
         List<OrderItem> orderItems = new ArrayList<>();
-        for (OrderAddGoodRequset orderAddRequest:orderAddGoodRequsets){
-            OrderItem orderItem = new OrderItem(null,
-                    orderId,
-                    orderAddRequest.getGoodsId(),
-                    orderAddRequest.getSkuId(),
-                    orderAddRequest.getGoodsPrice(),
-                    orderAddRequest.getCount(),
-                    0);
-            int insert = baseMapper.insert(orderItem);
-            orderItems.add(orderItem);
-            if(insert != 1){
-                return null;
+        try{
+            for (OrderAddGoodRequset orderAddRequest:orderAddGoodRequsets){
+                OrderItem orderItem = new OrderItem(null,
+                        orderId,
+                        orderAddRequest.getGoodsId(),
+                        orderAddRequest.getSkuId(),
+                        orderAddRequest.getGoodsPrice(),
+                        orderAddRequest.getCount(),
+                        0);
+                baseMapper.insert(orderItem);
+                orderItems.add(orderItem);
             }
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
         }
         return orderItems;
     }

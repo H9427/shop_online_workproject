@@ -31,7 +31,7 @@ public class OrdersController {
     @PostMapping("/addOrder")
     @ResponseBody
     public void AddOrder(@RequestBody OrderAddRequest orderAddRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        System.out.println(orderAddRequest);
         //获取token，并通过token获取用户id
         String authorization = request.getHeader("Authorization");
         DecodedJWT jwt = jwtUtils.resolveJwt(authorization);
@@ -86,6 +86,19 @@ public class OrdersController {
             response.getWriter().write(RestBean.success("订单状态修改成功").asJsonString());
         }else {
             response.getWriter().write(RestBean.unauthorized("订单状态修改失败").asJsonString());
+        }
+    }
+
+    @PostMapping("/details")
+    @ResponseBody
+    public void OrderDetails(OrderDetailsRequest orderDetailsRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        OrdersResponse ordersResponse = ordersService.orderDetails(orderDetailsRequest);
+        response.setContentType("application/json;charset=utf-8");
+        if(ordersResponse != null){
+            response.getWriter().write(RestBean.success(ordersResponse,"查找成功").asJsonString());
+        }else {
+            response.getWriter().write(RestBean.unauthorized("查找失败").asJsonString());
         }
     }
 }
