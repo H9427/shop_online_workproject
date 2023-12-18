@@ -6,6 +6,7 @@ import com.example.backend.entity.bean.UserAddress;
 import com.example.backend.entity.vo.request.AddressAddRequest;
 import com.example.backend.entity.vo.request.ShopingCartAddRequest;
 import com.example.backend.entity.vo.request.ShopingCartDeleteRequest;
+import com.example.backend.entity.vo.response.AllItemsAndPricesResponse;
 import com.example.backend.entity.vo.response.ShopingCartResponse;
 import com.example.backend.entity.vo.response.UserAddressResponse;
 import com.example.backend.service.ShopingCartService;
@@ -67,7 +68,7 @@ public class ShopingCartController {
         }
     }
 
-    @DeleteMapping("delete")
+    @PostMapping("/delete")
     @ResponseBody
     public void DeleteShopingCart(ShopingCartDeleteRequest shopingCartDeleteRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -77,6 +78,23 @@ public class ShopingCartController {
             response.getWriter().write(RestBean.success("删除成功").asJsonString());
         }else {
             response.getWriter().write(RestBean.unauthorized("删除失败").asJsonString());
+        }
+    }
+
+    @GetMapping("/allItemsAndPrices")
+    @ResponseBody
+    public void AllItemsAndPrices(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        //获取token，并通过token获取用户id
+        String authorization = request.getHeader("Authorization");
+        DecodedJWT jwt = jwtUtils.resolveJwt(authorization);
+        Integer userId = jwtUtils.toId(jwt);
+
+        AllItemsAndPricesResponse allItemsAndPricesResponse = shopingCartService.allItemsAndPrices(userId);
+        response.setContentType("application/json;charset=utf-8");
+        if(allItemsAndPricesResponse != null){
+            response.getWriter().write(RestBean.success(allItemsAndPricesResponse,"查询成功").asJsonString());
+        }else {
+            response.getWriter().write(RestBean.unauthorized("查询失败").asJsonString());
         }
     }
 

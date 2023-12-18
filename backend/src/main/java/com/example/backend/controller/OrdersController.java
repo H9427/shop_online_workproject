@@ -34,6 +34,7 @@ public class OrdersController {
     @PostMapping("/addOrder")
     @ResponseBody
     public void AddOrder(@RequestBody OrderAddRequest orderAddRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         //获取token，并通过token获取用户id
         String authorization = request.getHeader("Authorization");
         DecodedJWT jwt = jwtUtils.resolveJwt(authorization);
@@ -65,7 +66,7 @@ public class OrdersController {
         }
     }
 
-    @DeleteMapping("delete")
+    @PostMapping("/delete")
     @ResponseBody
     public void DeleteOrder(OrdersDeleteRequest ordersDeleteRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
