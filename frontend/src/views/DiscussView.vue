@@ -1,4 +1,4 @@
 <template>
   <Navbar />
-  <ShoppingCart />
+  <Discuss />
 </template>

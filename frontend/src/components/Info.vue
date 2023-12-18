@@ -30,14 +30,16 @@
           </div>
           <!-- 表单 -->
           <div class="custom-div">
-            <div class="mt-5"><a>昵称:</a><input type="text" placeholder="请输入昵称" class="input input-bordered input-sm w-full max-w-xs" v-model="information.nickName" /></div>
-            <div class="mt-5"><a>真实姓名:</a><input type="text" placeholder="请输入真实姓名" class="input input-bordered input-sm w-full max-w-xs" v-model="information.realName" /></div>
-            <div class="mt-5"><a>手机号:</a><input type="text" placeholder="请输入手机号" class="input input-bordered input-sm w-full max-w-xs" v-model="information.userMobile" /></div>
-            <div class="mt-5"><a>重置密码:</a><input type="password" placeholder="请输入新密码（不改请不要输入）" class="input input-bordered input-sm w-full max-w-xs" v-model="information.userPwd" /></div>
-            <div class="mt-5">
-              <a>性别:</a>
-              <a>男&nbsp;&nbsp;</a><input type="radio" name="radio-1" class="radio checked:bg-blue-500" checked />
-              <a>女&nbsp;&nbsp;</a><input type="radio" name="radio-1" class="radio checked:bg-red-500" />
+            <div class="mt-5"><a>昵称:ㅤㅤ</a><input type="text" placeholder="请输入昵称" class="input input-bordered input-sm w-full max-w-xs ml-4" v-model="information.nickName" /></div>
+            <div class="mt-5"><a>真实姓名:</a><input type="text" placeholder="请输入真实姓名" class="input input-bordered input-sm w-full max-w-xs ml-4" v-model="information.realName" /></div>
+            <div class="mt-5"><a>手机号:ㅤ</a><input type="text" placeholder="请输入手机号" class="input input-bordered input-sm w-full max-w-xs ml-4" v-model="information.userMobile" /></div>
+            <div class="mt-5"><a>重置密码:</a><input type="password" placeholder="请输入新密码（不改请不要输入）" class="input input-bordered input-sm w-full max-w-xs ml-4" v-model="information.userPwd" /></div>
+            <div class="mt-3">
+              <a class="mr-4">性别:ㅤㅤ</a>
+              <a>男&nbsp;&nbsp;</a>
+              <input type="radio" name="radio-1" class="radio checked:bg-blue-500" value="男" v-model="information.userSex" checked />ㅤ
+              <a>女&nbsp;&nbsp;</a>
+              <input type="radio" name="radio-1" class="radio checked:bg-red-500" value="女" v-model="information.userSex" />
             </div>
             <div style="text-align: center">
               <button class="btn btn-neutral btn-wide" @click="submit_information">保存</button>
@@ -50,7 +52,7 @@
       <div v-if="choose == 1">
         <span @click="new_address()" class="underline-on-hover" style="font-size: 24px; cursor: pointer; border: 1px black solid; border-radius: 20px">新建地址</span>
         <dialog id="my_modal_2" class="modal">
-          <div class="modal-box">
+          <div class="modal-box w-11/12 max-w-5xl">
             <h3 class="font-bold text-lg">填写地址信息</h3>
             <div class="overflow-x-auto">
               <table class="table">
@@ -73,7 +75,7 @@
                   </tr>
                 </tbody>
               </table>
-              <button @click="submit_address">提交</button>
+              <button class="btn" @click="submit_address" style="background-color: black; color: white">提交</button>
             </div>
           </div>
           <form method="dialog" class="modal-backdrop">
@@ -108,7 +110,7 @@
                 <td>详细地址：{{ item.address }}</td>
               </tr>
             </table>
-            <span @click="edit_address(item)" class="underline-on-hover" style="font-size: 24px; cursor: pointer; border: 1px black solid; border-radius: 20px">修改</span>
+            <button class="btn" @click="edit_address(item)">修改</button> <button class="btn" @click="edit_address(item)" style="background-color: red">删除</button>
           </div>
         </div>
       </div>
@@ -118,9 +120,76 @@
         <div v-if="orders.length == 0">
           <p>没有订单信息</p>
         </div>
-        <div v-for="(item, index) in orders" :key="index">
-          {{ item }}
+        <div v-else>
+          <div role="tablist" class="tabs tabs-lifted">
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="全部" checked />
+            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6" style="height: 540px; overflow: auto">
+              <table class="table">
+                <!-- head -->
+                <thead>
+                  <tr>
+                    <th>商品名称</th>
+                    <th>商品单价</th>
+                    <th>商品总价</th>
+                    <th>订单状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- row 1 -->
+                  <tr v-for="(item, index) in orders" :key="index">
+                    <td style="width: 40%">
+                      <div class="flex items-center gap-3" v-for="(item1, index) in item.items" :key="index">
+                        <div class="avatar">
+                          <div class="mask mask-squircle w-12 h-12">
+                            <img :src="item1.goods.goodsImg[0].imgUrl" alt="Avatar Tailwind CSS Component" />
+                          </div>
+                        </div>
+                        <div>
+                          <div class="font-bold">{{ item1.goods.goodsName }}</div>
+                          <div class="mt-2">
+                            <span class="badge badge-ghost badge-xl">xl</span> <a class="text-sm opacity-50">x{{ item1.count }}</a>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td>
+                      <div v-for="(item1, index) in item.items" :key="index">￥{{ item1.goodsPrice }}</div>
+                    </td>
+                    <th>
+                      <p>￥{{ item.totalAmount }}</p>
+                    </th>
+                    <th>
+                      <p v-if="item.status == 1">待付款</p>
+                      <p v-if="item.status == 2">待收货</p>
+                      <p v-if="item.status == 3">待评价</p>
+                      <p v-if="item.status == 4">已完成</p>
+                    </th>
+                    <th>
+                      <button class="btn btn-ghost btn-xs" v-if="item.status == 1" @click="payment(item.id)">去付款</button>
+                      <button class="btn btn-ghost btn-xs" v-if="item.status == 2" @click="deliveryGoods(item.id)">确定收货</button>
+                      <button class="btn btn-ghost btn-xs" v-if="item.status == 3" @click="router.push('/discuss')">去评价</button>
+                      <button class="btn btn-ghost btn-xs" v-if="item.status == 1 || item.state == 4" @click="cancel(item.id)">删除订单</button>
+                      <button class="btn btn-ghost btn-xs" v-if="item.status == 4">删除订单</button>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="待付款" />
+            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 2</div>
+
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="待收货" />
+            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 3</div>
+
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="待评价" />
+            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 3</div>
+          </div>
         </div>
+
+        <!-- <div v-for="(item, index) in orders" :key="index"></div> -->
       </div>
     </div>
   </div>
@@ -131,6 +200,7 @@ import { UserFilled, Promotion, List, StarFilled } from "@element-plus/icons-vue
 import { ref, reactive } from "vue";
 import { onMounted, onUpdated } from "vue";
 import { get, post, internalPost, takeAccessToken } from "../net";
+import router from "@/router";
 
 const choose = ref(0);
 const information = ref("");
@@ -170,7 +240,41 @@ onMounted(() => {
 
   //获取订单列表
   get("/api/order/listOrders", (data) => {
-    orders.value = data;
+    let exist_address = new Array(1000);
+    let length = 0;
+    for (let i = 0; i < data.length; i++) {
+      let createTime = new Date(data[i].createTime);
+      let nowTime = new Date();
+      let time = 1800 - Math.abs(nowTime.getTime() - createTime.getTime()) / 1000;
+      if (data[i].state == 1 && time < 0) {
+        internalPost(
+          "/api/order/delete",
+          {
+            orderId: data[i].id,
+          },
+          {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${takeAccessToken()}`,
+          },
+          (data) => {
+            console.log("删除成功");
+          },
+          (message, code, url) => {
+            //删除失败
+            console.log(message);
+            console.log(code);
+            console.log(url);
+          }
+        );
+      } else {
+        exist_address[length++] = data[i];
+      }
+    }
+    let exist_address1 = new Array(length);
+    for (let i = 0; i < length; i++) {
+      exist_address1[i] = exist_address[i];
+    }
+    orders.value = exist_address1;
   });
 });
 
@@ -182,6 +286,55 @@ onUpdated(() => {
     });
   }
 });
+
+function deliveryGoods(orderId) {
+  internalPost(
+    "/api/order/editState",
+    {
+      orderId: orderId,
+      state: 3,
+    },
+    {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${takeAccessToken()}`,
+    },
+    (data) => {
+      ElMessage.success("收货成功");
+    },
+    (message, code, url) => {
+      //删除失败
+      console.log(message);
+      console.log(code);
+      console.log(url);
+    }
+  );
+}
+
+function cancel(orderId) {
+  internalPost(
+    "/api/order/delete",
+    {
+      orderId: orderId,
+    },
+    {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${takeAccessToken()}`,
+    },
+    (data) => {
+      ElMessage.success("订单删除成功");
+    },
+    (message, code, url) => {
+      //删除失败
+      console.log(message);
+      console.log(code);
+      console.log(url);
+    }
+  );
+}
+
+function payment(orderId) {
+  router.push({ path: "/order", query: { id: orderId } });
+}
 
 function new_address() {
   address_add.addressId = -1;

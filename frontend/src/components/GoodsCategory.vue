@@ -6,14 +6,14 @@
       </button>
       <!-- sm -->
       <span style="font-size: small" class="ml-2 mr-2">排序</span>
-      <select class="select select-bordered select-sm w-30 max-w-xs">
-        <option selected>综合</option>
-        <option>销量</option>
-        <option>价格由低到高</option>
-        <option>价格由高到低</option>
+      <select class="select select-bordered select-sm w-30 max-w-xs" v-model="mode">
+        <option value="0" selected>综合</option>
+        <option value="1">销量</option>
+        <option value="2">价格由低到高</option>
+        <option value="3">价格由高到低</option>
       </select>
     </div>
-    <div role="tablist" class="tabs tabs-bordered">
+    <div role="tablist" class="tabs tabs-bordered" >
       <el-drawer v-model="drawer" :direction="direction">
         <template #header>
           <div>
@@ -27,7 +27,7 @@
               <button class="btn btn-sm mr-4" @click="setPriceRange(200, 500)">200-500</button>
               <button class="btn btn-sm mr-4" @click="setPriceRange(500, 1000)">500-1000</button>
               <button class="btn btn-sm mr-4" @click="setPriceRange(1000, 1500)">1000-1500</button>
-              <button class="btn btn-sm mr-4" @click="setPriceRange(1500, Infinity)">1500+</button>
+              <button class="btn btn-sm mr-4" @click="setPriceRange(1500, 99999)">1500+</button>
             </div>
 
             <div class="mt-8" style="margin-left: 90%">
@@ -37,66 +37,46 @@
           </div>
         </template>
       </el-drawer>
-
-      <!-- <div>
-          <div v-for="(category, index) in store.categoryData" :key="index">
-            <p>{{ category.categoryName }}</p>
-            <ul>
-              <li v-for="(child, childIndex) in category.children" :key="childIndex">
-                {{ child.categoryName }}
-              </li>
-            </ul>
-          </div>
-        </div> -->
+      
       <div class="tabar">
-        <div v-for="(item, index) in store.categoryData.data" :key="index" @click="click_tabar(index)" :class="store.categoryData.check == index ? 'check_on' : 'check_off'">
+        <div v-for="(item, index) in store.Category" :key="index" @click="click_tabar(index)" :class="store.check == index ? 'check_on' : 'check_off'">
           &nbsp;&nbsp;{{ item.categoryName }}&nbsp;&nbsp;
         </div>
       </div>
-
       <el-row class="mt-5">
-        <el-col v-for="(item, index) in store.categoryData.data[store.categoryData.check].goods" :key="index" :span="6" class="mb-10">
+        <el-col v-for="(item, index) in store.Goods" :key="index" :span="6" class="mb-10">
           <!-- <div :to="{ name: 'goodsDetail', params: { id: item.goodsId } }" class="card w-96 bg-base-100 shadow-xl" style="width: 300px"> -->
           <div @click="goDetail(item.goodsId)" class="card w-96 bg-base-100 shadow-xl" style="width: 300px;cursor: pointer;">
             <img :src="item.goodsImg.imgUrl" />
 
             <h2 class="card-title ml-3 mt-1">{{ item.goodsName }}</h2>
-            <p class="ml-3 mb-1">￥{{ item.goodsSku.originalPrice }}</p>
+            <p class="ml-3 mb-1">￥{{ item.goodsSku.originalPrice }}&nbsp;&nbsp;销量:{{ item.soldNum }}</p>
           </div>
         </el-col>
       </el-row>
-
-      <!-- <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="外套" checked />
-        <div role="tabpanel" class="tab-content p-10 pl-15 pr-15">
-          <el-row>
-            <el-col v-for="(o, index) in 4" :key="o" :span="6" class="mb-10">
-              <router-link :to="{ name: 'goodsDetail', params: { id: o } }" class="card w-96 bg-base-100 shadow-xl" style="width: 300px">
-                <img src="https://shop-online-wujiahao17.oss-cn-beijing.aliyuncs.com/avatar/40531edb-083c-40d3-a547-05ebc6baa2d9.jpg" />
-                <h2 class="card-title ml-3 mt-1">GoodsName!</h2>
-                <p class="ml-3 mb-1">￥1000.00</p>
-              </router-link>
-            </el-col>
-          </el-row>
-        </div> -->
     </div>
   </div>
 </template>
 
 <script setup>
 import { Minus, ArrowDown } from "@element-plus/icons-vue";
-import { ref, reactive } from "vue";
-import Navbar from "../components/Navbar.vue";
+import { ref, reactive,watch,onMounted } from "vue";
 import router from "@/router";
 import { useCategoryStore } from "../stores/category";
 const store = useCategoryStore();
-const categoryStore = useCategoryStore();
 const drawer = ref(false);
 const direction = ref("ttb");
 const minPrice = ref("");
 const maxPrice = ref("");
+const goods = ref([]);//
+const mode = ref(0)
 const Data = reactive({
   data: "",
   check: "",
+});
+
+watch(mode, (newVal) => {
+  q_sort(newVal)
 });
 
 function goDetail(id) {
@@ -104,9 +84,8 @@ function goDetail(id) {
 }
 
 function click_tabar(index) {
-  Data.data = store.categoryData.data;
-  Data.check = index;
-  categoryStore.setCategoryData(Data);
+  store.check = index;
+  store.Goods = store.Category[index].goods;
 }
 
 function setPriceRange(min, max) {
@@ -117,12 +96,40 @@ function setPriceRange(min, max) {
 function resetPrice() {
   minPrice.value = "";
   maxPrice.value = "";
+  store.Goods = store.Category[store.check].goods;
+  q_sort(mode.value);
+}
+
+function q_sort(index){
+  if(index == 0){
+    store.Goods.sort((a,b)=>b.goodsId - a.goodsId)
+  }
+  if(index == 1){
+    store.Goods.sort((a,b)=>b.soldNum - a.soldNum)
+  }
+  if(index == 2){
+    store.Goods.sort((a,b)=>a.goodsSku.originalPrice - b.goodsSku.originalPrice)
+  }
+  if(index == 3){
+    store.Goods.sort((a,b)=>b.goodsSku.originalPrice - a.goodsSku.originalPrice)
+  }
 }
 
 function confirmClick() {
-  drawer.value = false;
-  const data = this.$route.query.id;
-  console.log(data);
+  store.Goods = store.Category[store.check].goods;
+  let ls_sz = new Array(1000);
+  let gs = 0;
+  for(let i = 0;i < store.Goods.length;i ++){
+    if(store.Goods[i].goodsSku.originalPrice <= maxPrice.value&&store.Goods[i].goodsSku.originalPrice >= minPrice.value){
+      ls_sz[gs ++] = store.Goods[i];
+    }
+  }
+  let x_sz = new Array(gs);
+  for(let i = 0;i < gs;i ++){
+    x_sz[i] = ls_sz[i];
+  }
+  store.Goods = x_sz;
+  q_sort(mode.value);
 }
 </script>
 

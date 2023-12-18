@@ -2,26 +2,23 @@
   <div class="custom-div">
     <el-row :gutter="36" style="padding-top: 15px">
       <!-- 左边 -->
-      <el-col :span="12" class="mb-10" style="padding-left: 10%; padding-top: 2%">
+      <el-col :span="10" class="mb-10" style="padding-left: 10%; padding-top: 2%">
         <el-card :body-style="{ padding: '0px' }">
-          <!-- <div style="height: 100%;width: 100%;display: flex;"> -->
-          <div style="height: 500px;width: 470px;display: flex;">
-            <div class="left" style="background-color: blue;">
-              <a>
-                <img :src="img"/>
-              </a>
+          <div style="height: 500px; width: 470px; display: flex">
+            <div>
+              <img :src="img" class="left" />
             </div>
-            <div class="right" style="background-color: red;overflow: auto;-webkit-scrollbar-display: none;">
-              <img v-for="(item,index) in Data.goodsImg" :key="index" :src="item.imgUrl" @click="img=item.imgUrl"/>
+
+            <div class="right" style="background-color: red; overflow: auto; -webkit-scrollbar-display: none">
+              <img v-for="(item, index) in Data.goodsImg" :key="index" :src="item.imgUrl" @click="img = item.imgUrl" />
             </div>
           </div>
-          
         </el-card>
       </el-col>
-      
+
       <!-- 右边 -->
       <el-col :span="12" class="mb-10" style="padding-top: 2%; padding-left: 10%">
-        <div style="font-size: 20px">{{Data.data.goodsName}}</div>
+        <div style="font-size: 20px">{{ Data.data.goodsName }}</div>
         <div style="font-size: 17px" class="mt-2">￥ {{ Data.value }}</div>
         <div class="mt-1">
           <div class="badge badge-ghost"><p style="color: gray">满199包邮</p></div>
@@ -96,30 +93,18 @@
           </dialog>
         </div>
         <div class="flex-container">
-          <button v-for="(item,index) in Data.goodsSku" :class="index == num ? sizeOn : sizeOff" @click="num = index">&nbsp;{{item.skuName}}</button>
+          <button v-for="(item, index) in Data.goodsSku" :class="index == num ? sizeOn : sizeOff" @click="num = index">&nbsp;{{ item.skuName }}</button>
         </div>
 
         <div style="padding-top: 30px">数量</div>
         <div style="padding-top: 10px"><el-input-number v-model="count" :min="1" :max="999" @change="handleChange" /></div>
         <div style="padding-top: 30px"><button class="btn btn-wide" style="width: 80%" @click="AddShoppingCart()">加入购物车</button></div>
-        <!-- <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
-          <div class="space-x-2 flex text-sm">
-            <label>
-              <input class="sr-only peer" name="size" type="radio" value="xs" checked />
-              <div class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:font-semibold peer-checked:bg-slate-900 peer-checked:text-white">XS</div>
-            </label>
-            <label>
-              <input class="sr-only peer" name="size" type="radio" value="s" />
-              <div class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:font-semibold peer-checked:bg-slate-900 peer-checked:text-white">S</div>
-            </label>
-          </div>
-        </div> -->
         <div class="mt-10" style="font-size: 90%; color: gray">商品简介</div>
 
         <div class="demo-collapse mt-5" style="width: 80%">
           <el-collapse v-model="activeNames" @change="handleChange1">
             <el-collapse-item title="面料保养" name="1">
-              <div style="font-size: 95%; color: gray">{{Data.data.material}}; (温馨提示：{{ Data.data.instructions }})</div>            
+              <div style="font-size: 95%; color: gray">{{ Data.data.material }}; (温馨提示：{{ Data.data.instructions }})</div>
             </el-collapse-item>
             <el-collapse-item title="价格说明" name="2">
               <div style="font-size: 95%; color: gray">•划线价格</div>
@@ -133,20 +118,41 @@
         <div class="mt-2" style="font-size: 90%; color: gray">发货后14天无理由退换</div>
       </el-col>
     </el-row>
+    <div>
+      <div style="font-size: 36px;background-color: black;color:white">评论区</div>
+      <div v-for="(item,index) in Comments.value" :key="index" style="margin-top: 20px;">
+        <div>
+          <div style="font-size: 24px;">
+            <div v-if="item.isAnonymous == 0">姓名：{{ item.user.nickName }}&nbsp;&nbsp;&nbsp;</div><div v-else>姓名：匿名&nbsp;&nbsp;&nbsp;</div>
+          </div>
+          <div class="rating">
+            <input type="radio" name="rating-1" class="mask mask-star" :value="1" v-model="item.commType" disabled/>
+            <input type="radio" name="rating-1" class="mask mask-star" :value="2" v-model="item.commType" disabled/>
+            <input type="radio" name="rating-1" class="mask mask-star" :value="3" v-model="item.commType" disabled/>
+            <input type="radio" name="rating-1" class="mask mask-star" :value="4" v-model="item.commType" disabled/>
+            <input type="radio" name="rating-1" class="mask mask-star" :value="5" v-model="item.commType" disabled/>
+          </div>
+        </div>
+        
+        <div style="font-size: 24px;">评论：{{ item.commContent }}</div>
+        <div style="height: 200px;width: 200px;">
+          <img :src="item.commImg" alt="" style="height: 100%;width: 100%;">
+        </div>
+        <hr style="margin-top: 10px;">
+      </div>
+    </div>
   </div>
   <Footer class="mt-10" />
-
-  <p>{{ $route.query.id }}</p>
 </template>
 
 <script lang="ts" setup>
-import { get,post,internalPost,takeAccessToken } from "../net";
-import { ref,reactive } from "vue";
-import { onMounted } from 'vue';
-import router from "@/router";
-import { useRoute } from 'vue-router';  
-  
-const route = useRoute();  
+import { get, internalPost, takeAccessToken } from "../net";
+import { ref, reactive } from "vue";
+import { onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { ElMessage } from "element-plus";
+
+const route = useRoute();
 
 const sizeOn = ref("button-on");
 const sizeOff = ref("button-off");
@@ -157,21 +163,27 @@ const Data = reactive({
   data: "",
   goodsSku: "",
   goodsImg: "",
-  value:"",
+  value: "",
 });
 
-
-
+const Comments = reactive({
+  value: "",
+});
 
 onMounted(() => {
+  console.log(route.query.id)
   // 在挂载完成后调用
   get("/api/goods/details?goodsId=" + route.query.id, (data) => {
-    console.log(data)
     Data.data = data;
     Data.goodsSku = data.goodsSku;
     Data.goodsImg = data.goodsImg;
     img.value = data.goodsImg[0].imgUrl;
     Data.value = data.goodsSku[0].originalPrice;
+  });
+
+  get("/api/comments/allComments?goodsId=" + route.query.id, (data) => {
+    console.log(data)
+    Comments.value = data;
   });
 });
 
@@ -180,37 +192,37 @@ const handleChange = (value: number) => {
   counte.value = value;
 };
 
-// const activeNames = ref(["1"]);
-// const handleChange1 = (val: string[]) => {
-//   console.log(val);
-// };
-
 function AddShoppingCart() {
-  internalPost('/api/shopingCart/addShopingCart',
-  {
-    goodsId: route.query.id,
-    skuId: Data.goodsSku[num.value].skuId,
-    cartNum: counte.value,
-    goodsPrice: Data.goodsSku[num.value].originalPrice
-  },
-  {
-    "Content-Type": "application/x-www-form-urlencoded",
-    'Authorization':  `Bearer ${takeAccessToken()}`
-  },
-  (data) => {
-    //添加购物车成功
-    console.log(data);
-  },
-  (message, code, url) => {
-    //添加购物车失败
-    console.log(message);
-    console.log(code);
-    console.log(url);
-  }
+  internalPost(
+    "/api/shopingCart/addShopingCart",
+    {
+      goodsId: route.query.id,
+      skuId: Data.goodsSku[num.value].skuId,
+      cartNum: counte.value,
+      goodsPrice: Data.goodsSku[num.value].originalPrice,
+    },
+    {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${takeAccessToken()}`,
+    },
+    (data) => {
+      //添加购物车成功
+      ElMessage({
+        message: "添加购物车成功.",
+        type: "success",
+      });
+      setTimeout(() => {
+        history.go(0);
+      }, 200);
+    },
+    (message, code, url) => {
+      //添加购物车失败
+      console.log(message);
+      console.log(code);
+      console.log(url);
+    }
   );
 }
-
-
 </script>
 
 <style scoped>
@@ -248,19 +260,18 @@ function AddShoppingCart() {
   text-decoration: underline;
 }
 
-.left{
+.left {
   height: 100%;
-  width: 80%;
+  width: 100%;
 }
 
-
-.right{
+.right {
   display: block;
   height: 100%;
-  width: 20%;
+  width: 30%;
 }
 
-.right:hover{
+.right:hover {
   cursor: pointer;
 }
 </style>

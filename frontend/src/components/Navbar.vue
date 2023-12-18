@@ -5,8 +5,8 @@
 
       <div class="navbar-center hidden lg:flex" style="margin-left: 33%">
         <ul class="menu menu-horizontal px-1">
-          <li v-for="(item, index) in Data.category" :key="index">
-            <a @click="changeCategory(item.childen)">{{ item.categoryName }}</a>
+          <li v-for="(item, index) in store.TotalGoods" :key="index">
+            <a @click="changeCategory(index)">{{ item.categoryName }}</a>
           </li>
         </ul>
       </div>
@@ -18,13 +18,13 @@
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
             <div class="indicator">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-              <span class="badge badge-sm indicator-item">8</span>
+              <span class="badge badge-sm indicator-item">{{ Cart.itemsCount }}</span>
             </div>
           </div>
           <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
             <div class="card-body">
-              <span class="font-bold text-lg">8 Items</span>
-              <span style="color: black">Subtotal: $999</span>
+              <span class="font-bold text-lg">{{ Cart.itemsCount }} Items</span>
+              <span style="color: black">Subtotal: ￥{{ Cart.prices }}</span>
               <div class="card-actions">
                 <button class="btn btn-neutral btn-block" @click="router.push('/shoppingCart')">我的购物车</button>
               </div>
@@ -68,24 +68,29 @@ import router from "@/router";
 import { useCategoryStore } from "../stores/category";
 const store = useCategoryStore();
 const information = ref("");
-
-const Data = reactive({
-  data: "",
-  check: "",
-});
-const categoryStore = useCategoryStore();
+const Cart = ref("");
 
 onMounted(() => {
   //获取分类以及所有商品
   get("/api/category/queryAllCategory", (data) => {
-    Data.category = data;
-    // Data.data = data;
+    store.TotalGoods = data;
+    console.log(store.TotalGoods)
+    store.Category = store.TotalGoods[0].childen;
+    console.log(store.Category)
+    store.Goods = store.Category[0].goods;
+    console.log(store.Goods)
   });
 
   //获取个人信息
   get("/api/personal/queryInformation", (data) => {
     information.value = data;
   });
+
+  //获取购物车商品个数和总钱数
+  get("/api/shopingCart/allItemsAndPrices", (data) => {
+    Cart.value = data;
+  });
+  
 });
 
 function LogOut() {
@@ -93,11 +98,11 @@ function LogOut() {
   router.push("/");
 }
 
-function changeCategory(data) {
+function changeCategory(index) {
   router.push("/goods");
-  Data.data = data;
-  Data.check = 0;
-  categoryStore.setCategoryData(Data);
+  store.Category = store.TotalGoods[index].childen;
+  store.Goods = store.Category[0].goods;
+  store.check = 0;
 }
 </script>
 

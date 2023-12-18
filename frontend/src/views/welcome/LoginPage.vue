@@ -73,8 +73,10 @@ const rules = {
 function userLogin() {
   formRef.value.validate((valid) => {
     if (valid) {
-      login(form.username, form.password, form.remember, () => {});
-      router.push("/");
+      login(form.username, form.password, form.remember, () => {
+        router.push("/");
+      });
+      
     }
   });
 }
