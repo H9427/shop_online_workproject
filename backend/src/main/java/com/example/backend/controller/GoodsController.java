@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -38,6 +39,19 @@ public class GoodsController {
         response.setContentType("application/json;charset=utf-8");
         if(goodsResponse != null){
             response.getWriter().write(RestBean.success(goodsResponse,"查询成功").asJsonString());
+        }else {
+            response.getWriter().write(RestBean.unauthorized("查询失败").asJsonString());
+        }
+    }
+
+    @GetMapping("/fuzzy")
+    @ResponseBody
+    public void FuzzyQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String goodsName = obtainGoodsUtils.getGoodsName(request);
+        List<GoodsResponse> goodsResponses = goodsService.fuzzyQuery(goodsName);
+        response.setContentType("application/json;charset=utf-8");
+        if(goodsResponses != null){
+            response.getWriter().write(RestBean.success(goodsResponses,"查询成功").asJsonString());
         }else {
             response.getWriter().write(RestBean.unauthorized("查询失败").asJsonString());
         }

@@ -21,14 +21,14 @@ public class ObtainGoodsUtils {
     }
 
 
-//    public static Integer getNumber(HttpServletRequest request) throws ServerException {
-//        if (request.getParameter("number") == null) {
-//            throw new ServerException("数字不存在");
-//        }
-//        Integer number = Integer.valueOf(request.getParameter("number"));
-//        if (number == null) {
-//            throw new ServerException("数字不存在");
-//        }
-//        return number;
-//    }
+    public static String getGoodsName(HttpServletRequest request) throws ServerException {
+        if (request.getParameter("goodsName") == null) {
+            throw new ServerException("不存在");
+        }
+        String goodsName = request.getParameter("goodsName");
+        if (goodsName == null) {
+            throw new ServerException("不存在");
+        }
+        return goodsName;
+    }
 }

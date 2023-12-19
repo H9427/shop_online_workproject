@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.GoodsMapper">
+
+    <resultMap id="goodsMapper" type="com.example.backend.entity.bean.Goods">
+        <id column="goods_id" property="goodsId"></id>
+        <result column="goods_name" property="goodsName"></result>
+        <result column="category_id" property="categoryId"></result>
+        <result column="root_category_id" property="rootCategoryId"></result>
+        <result column="sold_num" property="soldNum"></result>
+        <result column="goods_trait" property="goodsTrait"></result>
+        <result column="instructions" property="instructions"></result>
+        <result column="material" property="material"></result>
+    </resultMap>
+
+    <select id="findGoodsByGoodsName" resultMap="goodsMapper">
+        select goods_id,goods_name,category_id,root_category_id,sold_num,goods_trait,material,instructions
+        from goods where goods_name Like CONCAT('%', #{goodsName}, '%')
+    </select>
+
+</mapper>

@@ -18,5 +18,4 @@ public class CarouselChart {
     private Integer imgId;
     private String imgUrl;
     private Integer goodsId;//商品id
-    private Integer chartOrder;//轮播图展示顺序
 }

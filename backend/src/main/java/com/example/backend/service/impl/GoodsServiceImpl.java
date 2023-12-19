@@ -90,4 +90,25 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goods.setSoldNum(goods.getSoldNum() + count);
         baseMapper.updateById(goods);
     }
+
+    @Override
+    public List<GoodsResponse> fuzzyQuery(String goodsName) {
+        List<Goods> goodses = baseMapper.findGoodsByGoodsName(goodsName);
+        List<GoodsResponse> goodsResponses = new ArrayList<>();
+        for(Goods goods:goodses){
+            GoodsResponse goodsResponse = new GoodsResponse();
+            goodsResponse.setGoodsId(goods.getGoodsId());
+            goodsResponse.setGoodsName(goods.getGoodsName());
+            goodsResponse.setCategoryId(goods.getCategoryId());
+            goodsResponse.setRootCategoryId(goods.getRootCategoryId());
+            goodsResponse.setSoldNum(goods.getSoldNum());
+            goodsResponse.setGoodsTrait(goods.getGoodsTrait());
+            goodsResponse.setInstructions(goods.getInstructions());
+            goodsResponse.setMaterial(goods.getMaterial());
+            goodsResponse.setGoodsImg(goodsImgService.listGoodsImg(goods.getGoodsId()));
+            goodsResponse.setGoodsSku(goodsSkuService.listGoodsSku(goods.getGoodsId()));
+            goodsResponses.add(goodsResponse);
+        }
+        return goodsResponses;
+    }
 }

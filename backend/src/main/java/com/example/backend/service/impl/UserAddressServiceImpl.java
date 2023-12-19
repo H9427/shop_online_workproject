@@ -88,9 +88,12 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
     @Override
     public Boolean commonAddress(Integer userId, AddressCommonRequest addressCommonRequest) {
         try{
+
             UserAddress userAddress = query().eq("user_id", userId).eq("common_address", 1).one();
-            userAddress.setCommonAddress(0);
-            baseMapper.updateById(userAddress);
+            if(userAddress != null){
+                userAddress.setCommonAddress(0);
+                baseMapper.updateById(userAddress);
+            }
             UserAddress userAddress1 = query().eq("user_id", userId).eq("address_id", addressCommonRequest.getAddressId()).one();
             userAddress1.setCommonAddress(1);
             baseMapper.updateById(userAddress1);
