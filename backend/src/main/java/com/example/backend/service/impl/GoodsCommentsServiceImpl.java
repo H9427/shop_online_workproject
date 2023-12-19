@@ -9,16 +9,14 @@ import com.example.backend.entity.bean.Goods;
 import com.example.backend.entity.bean.GoodsComments;
 import com.example.backend.entity.bean.Users;
 import com.example.backend.entity.vo.request.GoodsCommentsAddRequest;
+import com.example.backend.entity.vo.request.OrdersEditStateRequest;
 import com.example.backend.entity.vo.response.CategoryClassGoodsResponse;
 import com.example.backend.entity.vo.response.CommentsResonse;
 import com.example.backend.entity.vo.response.GoodsCommentsResponse;
 import com.example.backend.entity.vo.response.GoodsResponse;
 import com.example.backend.mapper.GoodsCommentsMapper;
 import com.example.backend.mapper.GoodsMapper;
-import com.example.backend.service.GoodsCommentsService;
-import com.example.backend.service.GoodsImgService;
-import com.example.backend.service.GoodsService;
-import com.example.backend.service.GoodsSkuService;
+import com.example.backend.service.*;
 import com.example.backend.utils.AliyunResource;
 import com.example.backend.utils.FileResource;
 import jakarta.annotation.Resource;
@@ -39,6 +37,12 @@ public class GoodsCommentsServiceImpl extends ServiceImpl<GoodsCommentsMapper, G
 
     @Resource
     PersonalCenterServiceImpl personalCenterService;
+
+    @Resource
+    OrderItemService orderItemService;
+
+    @Resource
+    OrdersService ordersService;
 
     private final FileResource fileResource;
 
@@ -85,6 +89,17 @@ public class GoodsCommentsServiceImpl extends ServiceImpl<GoodsCommentsMapper, G
                     new Date()
             );
             baseMapper.insert(goodsComments);
+
+            //修改评论状态
+            orderItemService.setIsComment(goodsCommentsAddRequest.getOrderItemId());
+            //查看是否还有未评论
+            if(orderItemService.queryIsComment(goodsCommentsAddRequest.getOrderId())){
+                OrdersEditStateRequest ordersEditStateRequest = new OrdersEditStateRequest();
+                ordersEditStateRequest.setOrderId(goodsCommentsAddRequest.getOrderId());
+                ordersEditStateRequest.setState(4);
+                ordersService.editState(ordersEditStateRequest);
+            }
+
             goodsCommentsResponse.setId(goodsComments.getId());
             goodsCommentsResponse.setGoodsId(goodsComments.getGoodsId());
             goodsCommentsResponse.setUserId(goodsComments.getUserId());

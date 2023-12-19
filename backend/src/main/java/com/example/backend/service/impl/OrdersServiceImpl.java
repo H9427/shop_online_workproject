@@ -89,7 +89,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             ordersResponse.setCreateTime(order.getCreateTime());
             ordersResponse.setPayTime(order.getPayTime());
             ordersResponse.setFlishTime(order.getFlishTime());
-            ordersResponse.setItems(orderItemService.getOrderItemByOrderId(order.getId()));
+            ordersResponse.setItems(orderItemService.getOrderItemByOrderIdHaveIsComment(order.getId()));
             ordersResponses.add(ordersResponse);
         }
         return ordersResponses;

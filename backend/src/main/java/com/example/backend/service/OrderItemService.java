@@ -14,4 +14,10 @@ public interface OrderItemService {
     public boolean deleteOrderItemsByOrderId(Integer orderId);
 
     public void addOrderItemSoldNum(Integer orderId);
+
+    public void setIsComment(Integer orderItemId);
+
+    public boolean queryIsComment(Integer orderId);
+
+    public List<OrderItemResponse> getOrderItemByOrderIdHaveIsComment(Integer orderId);
 }

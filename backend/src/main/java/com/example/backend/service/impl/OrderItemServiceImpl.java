@@ -65,6 +65,30 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
     public List<OrderItemResponse> getOrderItemByOrderId(Integer orderId) {
         LambdaQueryWrapper<OrderItem> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(OrderItem::getOrderId, orderId);
+        wrapper.eq(OrderItem::getIsComment, 0);
+        wrapper.orderByAsc(OrderItem::getId);
+        List<OrderItem> orderItems = baseMapper.selectList(wrapper);
+        List<OrderItemResponse> orderItemResponses = new ArrayList<>();
+        for (OrderItem orderItem:orderItems){
+            OrderItemResponse orderItemResponse = new OrderItemResponse();
+            orderItemResponse.setId(orderItem.getId());
+            orderItemResponse.setOrderId(orderItem.getOrderId());
+            orderItemResponse.setGoodsId(orderItem.getGoodsId());
+            orderItemResponse.setSkuId(orderItem.getSkuId());
+            orderItemResponse.setGoodsPrice(orderItem.getGoodsPrice());
+            orderItemResponse.setCount(orderItem.getCount());
+            orderItemResponse.setIsComment(orderItem.getIsComment());
+            orderItemResponse.setGoods(goodsService.goodsDetails(orderItem.getGoodsId()));
+            orderItemResponse.setSku(goodsSkuService.getGoodsById(orderItem.getSkuId()));
+            orderItemResponses.add(orderItemResponse);
+        }
+        return orderItemResponses;
+    }
+
+    @Override
+    public List<OrderItemResponse> getOrderItemByOrderIdHaveIsComment(Integer orderId) {
+        LambdaQueryWrapper<OrderItem> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(OrderItem::getOrderId, orderId);
         wrapper.orderByAsc(OrderItem::getId);
         List<OrderItem> orderItems = baseMapper.selectList(wrapper);
         List<OrderItemResponse> orderItemResponses = new ArrayList<>();
@@ -100,5 +124,21 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
         for (OrderItem orderItem:orderItems){
             goodsService.addSoldNum(orderItem.getGoodsId(),orderItem.getCount());
         }
+    }
+
+    @Override
+    public void setIsComment(Integer orderItemId) {
+        OrderItem orderItem = query().eq("id", orderItemId).one();
+        orderItem.setIsComment(1);
+        baseMapper.updateById(orderItem);
+    }
+
+    @Override
+    public boolean queryIsComment(Integer orderId) {
+        OrderItem orderItem = query().eq("id", orderId).eq("is_comment", 0).one();
+        if(orderItem == null){
+            return true;
+        }
+        return false;
     }
 }
