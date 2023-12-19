@@ -34,7 +34,6 @@ public class GoodsCommentsController {
     @PostMapping("/addComments")
     @ResponseBody
     public void AddComments(GoodsCommentsAddRequest goodsCommentsAddRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(goodsCommentsAddRequest.getCommImg());
         //获取token，并通过token获取用户id
         String authorization = request.getHeader("Authorization");
         DecodedJWT jwt = jwtUtils.resolveJwt(authorization);

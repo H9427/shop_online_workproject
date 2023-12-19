@@ -19,6 +19,7 @@ import com.example.backend.mapper.GoodsMapper;
 import com.example.backend.service.*;
 import com.example.backend.utils.AliyunResource;
 import com.example.backend.utils.FileResource;
+import io.lettuce.core.ScriptOutputType;
 import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -89,7 +90,6 @@ public class GoodsCommentsServiceImpl extends ServiceImpl<GoodsCommentsMapper, G
                     new Date()
             );
             baseMapper.insert(goodsComments);
-
             //修改评论状态
             orderItemService.setIsComment(goodsCommentsAddRequest.getOrderItemId());
             //查看是否还有未评论
@@ -99,7 +99,6 @@ public class GoodsCommentsServiceImpl extends ServiceImpl<GoodsCommentsMapper, G
                 ordersEditStateRequest.setState(4);
                 ordersService.editState(ordersEditStateRequest);
             }
-
             goodsCommentsResponse.setId(goodsComments.getId());
             goodsCommentsResponse.setGoodsId(goodsComments.getGoodsId());
             goodsCommentsResponse.setUserId(goodsComments.getUserId());
@@ -112,7 +111,6 @@ public class GoodsCommentsServiceImpl extends ServiceImpl<GoodsCommentsMapper, G
             System.out.println(e);
             return null;
         }
-
         return goodsCommentsResponse;
     }
 

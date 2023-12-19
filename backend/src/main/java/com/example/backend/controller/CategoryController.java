@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -26,7 +28,6 @@ public class CategoryController {
     @GetMapping("/queryAllCategory")
     @ResponseBody
     public void QueryAllCategory(HttpServletResponse response) throws IOException {
-
         List<CategoryClassAResponse> categoryResponses = categoryService.queryAllCategory();
         response.setContentType("application/json;charset=utf-8");
         if(categoryResponses != null){

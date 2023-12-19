@@ -17,6 +17,7 @@ import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     public OrdersResponse addOrder(Integer userId,OrderAddRequest orderAddRequest) {
         Integer defaultAddress = userAddressService.getDefaultAddress(userId);
         OrdersResponse ordersResponse = new OrdersResponse();
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        // 使用SimpleDateFormat对象将日期格式化为字符串
+        String formattedDate = sdf.format(date);
+
         try{
             Orders order = new Orders(null,
                     userId,
@@ -47,7 +54,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                     orderAddRequest.getTotalAmount(),
                     orderAddRequest.getOrderRemark(),
                     1,
-                    (int)(Math.random() * 10000000 + 10000000),
+                    Integer.parseInt(formattedDate) * 100000 + (int)(Math.random() * 100000 + 100000),
                     new Date(),
                     null,
                     null);
