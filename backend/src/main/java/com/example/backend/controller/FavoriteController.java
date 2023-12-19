@@ -3,6 +3,7 @@ package com.example.backend.controller;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backend.entity.RestBean;
 import com.example.backend.entity.vo.request.FavoriteAddRequest;
+import com.example.backend.entity.vo.request.FavoriteCancelRequest;
 import com.example.backend.entity.vo.request.OrderAddRequest;
 import com.example.backend.entity.vo.response.CategoryClassAResponse;
 import com.example.backend.entity.vo.response.FavoreteResponse;
@@ -60,6 +61,18 @@ public class FavoriteController {
             response.getWriter().write(RestBean.success(favoreteResponses,"查找成功").asJsonString());
         }else {
             response.getWriter().write(RestBean.unauthorized("查找失败").asJsonString());
+        }
+    }
+
+    @PostMapping("/cancelFavorite")
+    @ResponseBody
+    public void CancelFavorite(FavoriteCancelRequest favoriteCancelRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        boolean flag = favoriteService.cancelFavorite(favoriteCancelRequest);
+        response.setContentType("application/json;charset=utf-8");
+        if(flag){
+            response.getWriter().write(RestBean.success("收藏删除成功").asJsonString());
+        }else {
+            response.getWriter().write(RestBean.unauthorized("收藏删除失败").asJsonString());
         }
     }
 }

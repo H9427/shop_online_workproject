@@ -6,6 +6,7 @@ import com.example.backend.entity.bean.CarouselChart;
 import com.example.backend.entity.bean.Category;
 import com.example.backend.entity.bean.Favorite;
 import com.example.backend.entity.vo.request.FavoriteAddRequest;
+import com.example.backend.entity.vo.request.FavoriteCancelRequest;
 import com.example.backend.entity.vo.response.FavoreteResponse;
 import com.example.backend.mapper.CarouselChartMapper;
 import com.example.backend.mapper.FavoriteMapper;
@@ -51,5 +52,17 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
             favoreteResponseList.add(favoreteResponse);
         }
         return favoreteResponseList;
+    }
+
+    @Override
+    public boolean cancelFavorite(FavoriteCancelRequest favoriteCancelRequest) {
+        try{
+            Favorite favorite = query().eq("id", favoriteCancelRequest.getFavoriteId()).one();
+            baseMapper.deleteById(favorite);
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
     }
 }
