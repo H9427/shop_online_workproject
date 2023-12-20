@@ -18,4 +18,7 @@ public interface GoodsService {
     public void addSoldNum(Integer goodsId,Integer count);
 
     public List<GoodsResponse> fuzzyQuery(String goodsName);
+
+    public List<GoodsResponse> getGoodsByNum(Integer number);
+
 }

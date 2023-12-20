@@ -31,4 +31,15 @@ public class ObtainGoodsUtils {
         }
         return goodsName;
     }
+
+    public static Integer getNumber(HttpServletRequest request) throws ServerException {
+        if (request.getParameter("number") == null) {
+            throw new ServerException("不存在");
+        }
+        Integer number = Integer.valueOf(request.getParameter("number"));
+        if (number == null) {
+            throw new ServerException("不存在");
+        }
+        return number;
+    }
 }

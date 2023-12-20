@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @TableName("favorite")
 @AllArgsConstructor
@@ -16,4 +18,5 @@ public class Favorite {
     private Integer id;
     private Integer userId;
     private Integer goodsId;
+    private Date createTime;
 }

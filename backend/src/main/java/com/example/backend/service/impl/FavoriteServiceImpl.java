@@ -17,6 +17,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,7 +29,7 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
     @Override
     public boolean addFavorite(Integer userId, FavoriteAddRequest favoriteAddRequest) {
         try{
-            Favorite favorite = new Favorite(null,userId, favoriteAddRequest.getGoodsId());
+            Favorite favorite = new Favorite(null,userId, favoriteAddRequest.getGoodsId(),new Date());
             baseMapper.insert(favorite);
         }catch (Exception e){
             System.out.println(false);
@@ -48,6 +49,7 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
             favoreteResponse.setId(favorite.getId());
             favoreteResponse.setUserId(favorite.getUserId());
             favoreteResponse.setGoodsId(favorite.getGoodsId());
+            favoreteResponse.setCreateTime(favorite.getCreateTime());
             favoreteResponse.setGoodsResponse(goodsService.goodsDetails(favorite.getGoodsId()));
             favoreteResponseList.add(favoreteResponse);
         }
@@ -57,12 +59,18 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
     @Override
     public boolean cancelFavorite(FavoriteCancelRequest favoriteCancelRequest) {
         try{
-            Favorite favorite = query().eq("id", favoriteCancelRequest.getFavoriteId()).one();
+            Favorite favorite = query().eq("goods_id", favoriteCancelRequest.getGoodsId()).one();
             baseMapper.deleteById(favorite);
         }catch (Exception e){
             System.out.println(e);
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean queryFavorete(Integer userId, Integer goodsId) {
+        Favorite one = query().eq("goods_id", goodsId).eq("user_id", userId).one();
+        return one != null;
     }
 }

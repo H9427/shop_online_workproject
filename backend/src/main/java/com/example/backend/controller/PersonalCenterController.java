@@ -73,6 +73,7 @@ public class PersonalCenterController {
         String authorization = request.getHeader("Authorization");
         DecodedJWT jwt = jwtutils.resolveJwt(authorization);
         Integer userId = jwtutils.toId(jwt);
+
         String img = personalCenterService.editUserAvatar(userId, file);
 
         response.setContentType("application/json;charset=utf-8");

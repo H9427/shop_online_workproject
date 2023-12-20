@@ -10,6 +10,7 @@ import com.example.backend.entity.vo.response.FavoreteResponse;
 import com.example.backend.entity.vo.response.OrdersResponse;
 import com.example.backend.service.FavoriteService;
 import com.example.backend.utils.JWTUtils;
+import com.example.backend.utils.ObtainGoodsUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +30,9 @@ public class FavoriteController {
 
     @Resource
     JWTUtils jwtUtils;
+
+    @Resource
+    ObtainGoodsUtils ObtainGoodsUtils;
 
     @PostMapping("/addFavorite")
     @ResponseBody
@@ -74,5 +78,20 @@ public class FavoriteController {
         }else {
             response.getWriter().write(RestBean.unauthorized("收藏删除失败").asJsonString());
         }
+    }
+
+    @GetMapping("/queryFavorete")
+    @ResponseBody
+    public void QueryFavorete(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        Integer goodsId = ObtainGoodsUtils.getGoodsId(request);
+        //获取token，并通过token获取用户id
+        String authorization = request.getHeader("Authorization");
+        DecodedJWT jwt = jwtUtils.resolveJwt(authorization);
+        Integer userId = jwtUtils.toId(jwt);
+
+        boolean flag = favoriteService.queryFavorete(userId, goodsId);
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write(RestBean.success(flag,"查找成功").asJsonString());
+
     }
 }

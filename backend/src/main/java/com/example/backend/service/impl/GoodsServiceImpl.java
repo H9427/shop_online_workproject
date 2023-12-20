@@ -7,6 +7,7 @@ import com.example.backend.entity.bean.Goods;
 import com.example.backend.entity.vo.response.CategoryClassGoodsResponse;
 import com.example.backend.entity.vo.response.GoodsResponse;
 import com.example.backend.mapper.GoodsMapper;
+import com.example.backend.service.CategoryService;
 import com.example.backend.service.GoodsImgService;
 import com.example.backend.service.GoodsService;
 import com.example.backend.service.GoodsSkuService;
@@ -111,4 +112,28 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
         return goodsResponses;
     }
+
+    @Override
+    public List<GoodsResponse> getGoodsByNum(Integer number) {
+        LambdaQueryWrapper<Goods> wrapper = new LambdaQueryWrapper<>();
+        wrapper.last("LIMIT " + number);
+        List<Goods> goodsList = baseMapper.selectList(wrapper);
+        List<GoodsResponse> goodsResponses = new ArrayList<>();
+        for(Goods goods:goodsList){
+            GoodsResponse goodsResponse = new GoodsResponse();
+            goodsResponse.setGoodsId(goods.getGoodsId());
+            goodsResponse.setGoodsName(goods.getGoodsName());
+            goodsResponse.setCategoryId(goods.getCategoryId());
+            goodsResponse.setRootCategoryId(goods.getRootCategoryId());
+            goodsResponse.setSoldNum(goods.getSoldNum());
+            goodsResponse.setGoodsTrait(goods.getGoodsTrait());
+            goodsResponse.setInstructions(goods.getInstructions());
+            goodsResponse.setMaterial(goods.getMaterial());
+            goodsResponse.setGoodsImg(goodsImgService.listGoodsImg(goods.getGoodsId()));
+            goodsResponse.setGoodsSku(goodsSkuService.listGoodsSku(goods.getGoodsId()));
+            goodsResponses.add(goodsResponse);
+        }
+        return goodsResponses;
+    }
+
 }

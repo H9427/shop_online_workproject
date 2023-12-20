@@ -13,4 +13,6 @@ public interface FavoriteService {
     public List<FavoreteResponse> queryAllFavorete(Integer userId);
 
     public boolean cancelFavorite(FavoriteCancelRequest favoriteCancelRequest);
+
+    public boolean queryFavorete(Integer userId,Integer goodsId);
 }

@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend.entity.bean.Users;
 import com.example.backend.entity.vo.request.UserInformationEditRequest;
+import com.example.backend.entity.vo.response.GoodsCommentsResponse;
 import com.example.backend.entity.vo.response.UsersResponse;
 import com.example.backend.mapper.UsersMapper;
 import com.example.backend.service.PersonalCenterService;
@@ -88,12 +89,12 @@ public class PersonalCenterServiceImpl extends ServiceImpl<UsersMapper, Users> i
         ossClient.putObject(fileResource.getBucketName(), uploadFileName, inputStream);
         //关闭ossClient
         ossClient.shutdown();
+        uploadFileName = fileResource.getOssHost() + uploadFileName;
         //修改用户头像
         Users user = baseMapper.selectById(userId);
         if (user == null) {
             throw new ServerException("用户不存在");
         }
-        uploadFileName = fileResource.getOssHost() + uploadFileName;
         user.setUserImg(uploadFileName);
         baseMapper.updateById(user);
         return uploadFileName;

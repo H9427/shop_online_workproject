@@ -56,4 +56,17 @@ public class GoodsController {
             response.getWriter().write(RestBean.unauthorized("查询失败").asJsonString());
         }
     }
+
+    @GetMapping("/getByNum")
+    @ResponseBody
+    public void GetGoodsByNum(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Integer number = obtainGoodsUtils.getNumber(request);
+        List<GoodsResponse> goodsResponses = goodsService.getGoodsByNum(number);
+        response.setContentType("application/json;charset=utf-8");
+        if(goodsResponses != null){
+            response.getWriter().write(RestBean.success(goodsResponses,"查询成功").asJsonString());
+        }else {
+            response.getWriter().write(RestBean.unauthorized("查询失败").asJsonString());
+        }
+    }
 }

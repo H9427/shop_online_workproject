@@ -8,6 +8,7 @@ import com.example.backend.entity.bean.CarouselChart;
 import com.example.backend.entity.bean.Goods;
 import com.example.backend.entity.bean.GoodsComments;
 import com.example.backend.entity.bean.Users;
+import com.example.backend.entity.vo.request.GoodsCommentsAddNoPicRequest;
 import com.example.backend.entity.vo.request.GoodsCommentsAddRequest;
 import com.example.backend.entity.vo.request.OrdersEditStateRequest;
 import com.example.backend.entity.vo.response.CategoryClassGoodsResponse;
@@ -52,7 +53,6 @@ public class GoodsCommentsServiceImpl extends ServiceImpl<GoodsCommentsMapper, G
     @Override
     public GoodsCommentsResponse addComments(Integer userId,GoodsCommentsAddRequest goodsCommentsAddRequest) {
         GoodsCommentsResponse goodsCommentsResponse = new GoodsCommentsResponse();
-
         //读入配置信息
         String endpoint = fileResource.getEndpoint();
         String accessKeyId = aliyunResource.getAccessKeyId();
@@ -78,6 +78,7 @@ public class GoodsCommentsServiceImpl extends ServiceImpl<GoodsCommentsMapper, G
         ossClient.shutdown();
         uploadFileName = fileResource.getOssHost() + uploadFileName;
 
+
         try{
             GoodsComments goodsComments = new GoodsComments(
                     null,
@@ -87,6 +88,45 @@ public class GoodsCommentsServiceImpl extends ServiceImpl<GoodsCommentsMapper, G
                     goodsCommentsAddRequest.getCommType(),
                     goodsCommentsAddRequest.getCommContent(),
                     uploadFileName,
+                    new Date()
+            );
+            baseMapper.insert(goodsComments);
+            //修改评论状态
+            orderItemService.setIsComment(goodsCommentsAddRequest.getOrderItemId());
+            //查看是否还有未评论
+            if(orderItemService.queryIsComment(goodsCommentsAddRequest.getOrderId())){
+                OrdersEditStateRequest ordersEditStateRequest = new OrdersEditStateRequest();
+                ordersEditStateRequest.setOrderId(goodsCommentsAddRequest.getOrderId());
+                ordersEditStateRequest.setState(4);
+                ordersService.editState(ordersEditStateRequest);
+            }
+            goodsCommentsResponse.setId(goodsComments.getId());
+            goodsCommentsResponse.setGoodsId(goodsComments.getGoodsId());
+            goodsCommentsResponse.setUserId(goodsComments.getUserId());
+            goodsCommentsResponse.setIsAnonymous(goodsComments.getIsAnonymous());
+            goodsCommentsResponse.setCommType(goodsComments.getCommType());
+            goodsCommentsResponse.setCommContent(goodsComments.getCommContent());
+            goodsCommentsResponse.setCommImg(goodsComments.getCommImg());
+            goodsCommentsResponse.setCommTime(goodsComments.getCommTime());
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+        return goodsCommentsResponse;
+    }
+
+    @Override
+    public GoodsCommentsResponse addCommentsNoPic(Integer userId, GoodsCommentsAddNoPicRequest goodsCommentsAddRequest) {
+        GoodsCommentsResponse goodsCommentsResponse = new GoodsCommentsResponse();
+        try{
+            GoodsComments goodsComments = new GoodsComments(
+                    null,
+                    goodsCommentsAddRequest.getGoodsId(),
+                    userId,
+                    goodsCommentsAddRequest.getIsAnonymous(),
+                    goodsCommentsAddRequest.getCommType(),
+                    goodsCommentsAddRequest.getCommContent(),
+                    null,
                     new Date()
             );
             baseMapper.insert(goodsComments);

@@ -2,8 +2,11 @@ package com.example.backend.controller;
 
 import com.example.backend.entity.RestBean;
 import com.example.backend.entity.vo.response.CategoryClassAResponse;
+import com.example.backend.entity.vo.response.GoodsResponse;
 import com.example.backend.service.CategoryService;
+import com.example.backend.utils.ObtainGoodsUtils;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,9 @@ public class CategoryController {
     @Resource
     CategoryService categoryService;
 
+    @Resource
+    ObtainGoodsUtils obtainGoodsUtils;
+
     //查询所有分类信息
     @GetMapping("/queryAllCategory")
     @ResponseBody
@@ -36,4 +42,5 @@ public class CategoryController {
             response.getWriter().write(RestBean.unauthorized("查找失败").asJsonString());
         }
     }
+
 }

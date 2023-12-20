@@ -20,7 +20,7 @@ public class CarouselChartServiceImpl extends ServiceImpl<CarouselChartMapper, C
     @Override
     public List<CarouselChartResponse> getChartsByRandom(Integer number) {
         LambdaQueryWrapper<CarouselChart> wrapper = new LambdaQueryWrapper<>();
-        wrapper.last("limit" + number);
+        wrapper.last("LIMIT " + number);
         List<CarouselChart> carouselCharts = baseMapper.selectList(wrapper);
         List<CarouselChartResponse> carouselChartResponses = new ArrayList<>();
         for (CarouselChart carouselChart:carouselCharts){

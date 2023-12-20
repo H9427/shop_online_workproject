@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class FavoriteCancelRequest {
-    private Integer favoriteId;
+    private Integer goodsId;
 }
